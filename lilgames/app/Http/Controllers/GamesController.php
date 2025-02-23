@@ -12,4 +12,12 @@ class GamesController extends Controller
         $games = Games::all();
         return view('welcome', compact('games'));
     }
+    public function buscaminas()
+    {
+        return view('games.buscaminas');
+    }
+    public function snake()
+    {
+        return view('games.snake');
+    }
 }
