@@ -1,8 +1,8 @@
 <x-layout>
     <div id="form" class="rounded d-flex flex-column justify-content-center align-item-center mx-auto p-4" style="width: 22rem; padding-top:30vh;">
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
+    @if (session('message'))
+        <div class="alert alert-info">
+            {{ session('message') }}
         </div>
     @endif
         <form class="row g-3 needs-validation opacity-100 " method="post" action="{{route('validate');}}" autocomplete="off">
