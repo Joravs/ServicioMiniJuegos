@@ -31,4 +31,8 @@ class UserController extends Controller
             return redirect()->route('login')->with('error', 'Usuario o Contraseña Incorrectos');
         }
     }
+    public function myprofile()
+    {
+        return Auth::check()?view('user.myprofile'):redirect()->route('login')->with('message','Debes iniciar sesión para ver tu información');
+    }
 }

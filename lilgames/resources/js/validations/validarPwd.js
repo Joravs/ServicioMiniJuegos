@@ -30,7 +30,7 @@ const validarPwd1=()=>{
 }
 
 const cargarEvento=()=>{
-    pwdConf.addEventListener("input", validarPwd);
-    passwd.addEventListener("input", validarPwd1);
+    pwdConf.on("input", validarPwd);
+    passwd.on("input", validarPwd1);
 }
-document.addEventListener("DOMContentLoaded", cargarEvento);
+$(document).ready(cargarEvento);

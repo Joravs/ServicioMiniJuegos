@@ -19,9 +19,8 @@
     color:var(--color-celst);
    font-family: 'AidaSerifObliqueMedium', sans-serif;
 }
-
 .bg-grad{
-    background: linear-gradient(var(--color-nar),var(--color-tmt));
+    background: linear-gradient(var(--color-tmt) 20%,var(--color-nar),var(--color-amll));
 }
 #favicon{
     width: 90px;
@@ -30,6 +29,14 @@
     background-color: var(--color-prpl);
     color: white;
 }
+#navbar::after{
+    content: '';
+    display: block;
+    background: black;
+    width: 100%;
+    height: 3px;
+}
+
 input[type="search"]{
     background: transparent;
 }
@@ -44,4 +51,8 @@ input[type="search"]{
 }
 a{
     text-decoration: none;
+}
+.star{
+    aspect-ratio: 1/1;
+    width: 64px;
 }
