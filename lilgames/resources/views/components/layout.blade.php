@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container-fluid bg-grad vh-100">
-        <div id="navbar" class="row">
+        <div id="navbar" class="row quintissential">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand col-1 ps-4 ps-md-5 mx-auto" href="{{route('index');}}"><img id='favicon' src="{{asset('favicon.png');}}" alt=""></a>
                 <div class="d-none d-lg-block offset-4"></div>

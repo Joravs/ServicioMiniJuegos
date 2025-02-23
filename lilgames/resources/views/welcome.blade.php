@@ -1,15 +1,15 @@
 <x-layout>
     <div class="row">
         @foreach($games as $game)
-        <a href="{{route($game->nombreJuego);}}">
-            <div class="card col">
-                <img class="card-img-top juegos" src="{{asset('src/'.$game->nombreJuego.'.png');}}" alt="Buscaminas Logo"/>
-                <div class="card-body">
-                    <h4 class="card-title">{{$game->nombreJuego}}</h4>
-                    <p class="card-text">{{$game->info}}</p>
+        <div class="card col m-2 border-white text-center">
+            <a href="{{route($game->nombreJuego);}}">
+                <img class="card-img-top juegos align-self-center img-fluid" src="{{asset('src/'.$game->nombreJuego.'.png');}}" alt="{{route($game->nombreJuego);}} Logo"/>
+                <div class="card-body bg-white">
+                    <h4 class="card-title titulos">{{$game->nombreJuego}}</h4>
+                    <p class="card-text textos">{{$game->info}}</p>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
         @endforeach
     </div>
 </x-layout>
