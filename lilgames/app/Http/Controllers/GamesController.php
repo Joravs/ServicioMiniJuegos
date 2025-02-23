@@ -18,6 +18,6 @@ class GamesController extends Controller
     }
     public function snake()
     {
-        return view('games.snake');
+        return Auth::check()?view('games.snake'):redirect()->route('login') ->with('message','Debes iniciar sesión para jugar a este videjuego');
     }
 }

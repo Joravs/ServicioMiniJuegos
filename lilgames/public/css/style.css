@@ -13,8 +13,10 @@
 }
 .titulos{
    font-family: 'Sci Fied X', sans-serif;
+   color:var(--color-prpl);
 }
 .textos{
+    color:var(--color-celst);
    font-family: 'AidaSerifObliqueMedium', sans-serif;
 }
 

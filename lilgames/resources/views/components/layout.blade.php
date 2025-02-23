@@ -30,10 +30,16 @@
                             Perfil
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                            @if (Auth::check())
+                            <a class="dropdown-item" href="#">Estadisticas de Juego</a>
+                            <a class="dropdown-item" href="#">Juegos Favoritos</a>
+                            <a class="dropdown-item" href="#">Mi perfil</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{route('logout');}}">Salir</a>
+                            @else
+                            <a class="dropdown-item" href="{{route('login');}}">Iniciar Sesion</a>
+                            <a class="dropdown-item" href="{{route('register');}}">Registrarse</a>
+                            @endif
                         </div>
                     </li>
                     </ul>

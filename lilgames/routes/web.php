@@ -11,6 +11,8 @@ Route::get('/',[GamesController::class, 'welcome'])->name('index');
 Route::get('/registerForm',[AuthController::class, 'registerForm'])->name('register');
 // Login Form
 Route::get('/loginForm',[AuthController::class, 'loginForm'])->name('login');
+// Logout Form
+Route::get('/logout',[AuthController::class, 'logout'])->name('logout');
 //Buscaminas Game
 Route::get('/catalog/buscaminas',[GamesController::class, 'buscaminas'])->name('Buscaminas');
 //Snake Game
