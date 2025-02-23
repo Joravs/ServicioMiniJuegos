@@ -1,0 +1,23 @@
+@import url('https://fonts.cdnfonts.com/css/quintessential');
+@import url('https://fonts.cdnfonts.com/css/sci-fied-x');
+@import url('https://fonts.cdnfonts.com/css/aida-serif');
+:root{
+    --color-prpl: #514559;
+    --color-celst: #21BFAF;
+    --color-amll: #F2B544;
+    --color-nar: #F2A341;
+    --color-tmt:#F2594B ;
+}
+.quintissential{
+   font-family: 'Quintessential', sans-serif;
+}
+.titulos{
+   font-family: 'Sci Fied X', sans-serif;
+}
+.textos{
+   font-family: 'AidaSerifObliqueMedium', sans-serif;
+}
+
+.bg-grad{
+    background: linear-gradient(red,yellow);
+}
