@@ -24,13 +24,14 @@ class GamesFavController extends Controller
 
         return Auth::check()?view('games.favs', compact('gamesfav')):redirect()->route('login')->with('message','Debes iniciar sesión para ver tus juegos favoritos');
     }
-    public function controlFav($request)
+    public function controlFav(Request $request)
     {
+        dd($request);
         $idJuego = $request->idJuego;
         $idUsuario = Auth::id();
-        $fav=GamesFav::where('idJuego', $idJuego)->where('idUsuario', $idUsuario)->get();
-        if ($fav->isNotEmpty()) {
-            $fav->first()->delete();
+        $fav=GamesFav::where('idJuego', $idJuego)->where('idUsuario', $idUsuario)->first();
+        if ($fav) {
+            $fav->delete();
         } else {
             GamesFav::create(['idJuego' => $idJuego, 'idUsuario' => $idUsuario]);
         }
