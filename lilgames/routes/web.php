@@ -2,12 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ContentController;
 use App\Http\Controllers\GamesController;
 use App\Http\Controllers\AuthController;
 
 // Home Page
-Route::get('/',[ContentController::class, 'index'])->name('index');
+Route::get('/',[GamesController::class, 'welcome'])->name('index');
 // Register Form
 Route::get('/registerForm',[AuthController::class, 'registerForm'])->name('register');
 // Login Form

@@ -5,7 +5,7 @@ CREATE TABLE juegos
 (
   idJuego INT NOT NULL auto_increment,
   nombreJuego VARCHAR(25) NOT NULL,
-  info VARCHAR(50) NOT NULL,
+  info TEXT(255) NOT NULL,
   PRIMARY KEY (idJuego)
 );
 

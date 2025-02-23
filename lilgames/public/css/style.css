@@ -19,5 +19,22 @@
 }
 
 .bg-grad{
-    background: linear-gradient(red,yellow);
+    background: linear-gradient(var(--color-nar),var(--color-tmt));
+}
+#favicon{
+    width: 90px;
+}
+#navbar,.nav-link{
+    background-color: var(--color-prpl);
+    color: white;
+}
+input[type="search"]{
+    background: transparent;
+}
+.placeholder::placeholder{
+    color: white;
+    opacity:1;
+}
+.juegos{
+
 }
