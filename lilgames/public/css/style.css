@@ -36,5 +36,10 @@ input[type="search"]{
     opacity:1;
 }
 .juegos{
-
+    aspect-ratio: 1/1;
+    width: 200px;
+    height: 200px;
+}
+a{
+    text-decoration: none;
 }
