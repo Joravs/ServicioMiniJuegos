@@ -26,7 +26,6 @@ class GamesFavController extends Controller
     }
     public function controlFav(Request $request)
     {
-        dd($request);
         $idJuego = $request->idJuego;
         $idUsuario = Auth::id();
         $fav=GamesFav::where('idJuego', $idJuego)->where('idUsuario', $idUsuario)->first();
