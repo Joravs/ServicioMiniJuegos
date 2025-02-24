@@ -1,64 +1,60 @@
 <x-layout>
-    <div class="row">
+    <div id="Carrusel" class="row mx-auto">
         @if(Auth::check())
-        @foreach($statsControlPuntos['statsPuntos'] as $statsPoints)
-        <div class="row my-2">
-            <div class="card col-6 m-2 border-white text-center">
-                <a href="{{ route($statsPoints->nombreJuego) }}">
-                    <img class="card-img-top juegos align-self-center img-fluid" src="{{ asset('src/'.$statsPoints->nombreJuego.'.png') }}" alt="{{ $statsPoints->nombreJuego }} Logo"/>
-                    <div class="card-body bg-white">
-                        <h4 class="card-title titulos fs-5">{{ $statsPoints->nombreJuego }}</h4>
+        <div id="carouselIdPoints" class="carousel slide my-5" data-bs-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-bs-target="#carouselIdPoints" data-bs-slide-to="0" class="active" aria-current="true"aria-label="First slide"></li>
+                <li data-bs-target="#carouselIdPoints" data-bs-slide-to="1" aria-label="Second slide"></li>
+                <li data-bs-target="#carouselIdPoints" data-bs-slide-to="2"aria-label="Third slide"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+            @foreach($statsControlPuntos['statsPuntos'] as $statsPoints) 
+                <div class="carousel-item active">
+                    <img src="{{ asset('src/'.$statsPoints->nombreJuego.'.png') }}" class="mx-auto d-block juegos" alt="{{ $statsPoints->nombreJuego }} Logo"/>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3>{{ $statsPoints->nombreJuego }}</h3>
+                        <p>Partidas Jugadas: {{$statsPoints->partidasJugadas}}</p>
+                        <p>Record Puntos: {{ $statsPoints->recordPoints }}</p>
                     </div>
-                </a>
+                </div>
+            @endforeach
             </div>
-            <div class="row col-6">
-                <table class="bg-light rounded-2">
-                    <thead>
-                        <tr>
-                            <th>Partidas Jugadas</th>
-                            <th>Record Puntos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{$statsPoints->partidasJugadas}}</td>
-                            <td>{{ $statsPoints->recordPoints }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselIdPoints" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselIdPoints" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        @endforeach
-    </div>
-    <div class="row">
-        @foreach($statsControlTime['statsTiempo'] as $statsTime)
-            <div class="row my-2">
-                <div class="card col-6 m-2 border-white text-center">
-                    <a href="{{ route($statsTime->nombreJuego) }}">
-                        <img class="card-img-top juegos align-self-center img-fluid" src="{{ asset('src/'.$statsTime->nombreJuego.'.png') }}" alt="{{ $statsTime->nombreJuego }} Logo"/>
-                        <div class="card-body bg-white">
-                            <h4 class="card-title titulos fs-5">{{ $statsTime->nombreJuego }}</h4>
-                        </div>
-                    </a>
+        <div id="carouselIdTime" class="carousel slide my-5" data-bs-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-bs-target="#carouselIdTime" data-bs-slide-to="0" class="active" aria-current="true"aria-label="First slide"></li>
+                <li data-bs-target="#carouselIdTime" data-bs-slide-to="1" aria-label="Second slide"></li>
+                <li data-bs-target="#carouselIdTime" data-bs-slide-to="2"aria-label="Third slide"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+            @foreach($statsControlTime['statsTiempo'] as $statsTime)
+                <div class="carousel-item active">
+                    <img src="{{ asset('src/'.$statsTime->nombreJuego.'.png') }}" class="mx-auto juegos d-block" alt="{{$statsTime->partidasJugadas}} Logo"/>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3>{{$statsTime->nombreJuego}}</h3>
+                        <p>Partidas Jugadas: {{$statsTime->partidasJugadas}}</p>
+                        <p>Record Puntos: {{ $statsTime->recordTime }}</p>
+                    </div>
                 </div>
-                <div class="row col-6">
-                    <table class="bg-light rounded-2">
-                        <thead>
-                            <tr>
-                                <th>Partidas Jugadas</th>
-                                <th>Record Tiempo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$statsTime->partidasJugadas}}</td>
-                                <td>{{ $statsTime->recordTime }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            @endforeach
             </div>
-        @endforeach
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselIdTime" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselIdTime" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
         @endif
     </div>
 </x-layout>

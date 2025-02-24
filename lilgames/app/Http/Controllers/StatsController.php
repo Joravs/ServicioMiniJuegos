@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class StatsController extends Controller
 {
-    public function createFirst($id){
+    public function createFirst($id)
+    {
         $games = new GamesController;
         $games = $games->juegos();
         foreach($games as $game){

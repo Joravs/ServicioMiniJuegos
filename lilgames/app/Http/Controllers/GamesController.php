@@ -40,4 +40,6 @@ class GamesController extends Controller
         $statsControlTime = $statsControl->showStatsTime();
         return Auth::check()?view('stats.stats', compact('statsControlPuntos','statsControlTime')):redirect()->route('login')->with('message','Debes iniciar sesión para ver estas estadisticas');;
     }
+
+    
 }
