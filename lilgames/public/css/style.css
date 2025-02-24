@@ -57,3 +57,7 @@ a{
     width: 64px;
     color: transparent;
 }
+.dropdown-item:hover{
+    background-color: var(--color-prpl);
+    color: white;
+}

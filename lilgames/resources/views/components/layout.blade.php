@@ -30,7 +30,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             @if (Auth::check())
-                            <a class="nav-link" href="{{route('stats');}}">Estadisticas de Juego</a>
+                            <a class="dropdown-item" href="{{route('stats');}}">Estadisticas de Juego</a>
                             <a class="dropdown-item" href="{{route('favs');}}">Juegos Favoritos</a>
                             <a class="dropdown-item" href="{{route('myprofile');}}">Mi perfil</a>
                             <div class="dropdown-divider"></div>

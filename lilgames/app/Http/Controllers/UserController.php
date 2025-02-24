@@ -16,7 +16,9 @@ class UserController extends Controller
             'username' => ['required','max:255','unique:usuarios'],
             'passwd' => ['required','min:8'],
         ]);
-        Usuario::create($validateData);
+        $user = Usuario::create($validateData);
+        $cg = new StatsController;
+        $cg->createFirst($user->idUsuario);
         return redirect()->route('index');
     }
 
@@ -34,5 +36,14 @@ class UserController extends Controller
     public function myprofile()
     {
         return Auth::check()?view('user.myprofile'):redirect()->route('login')->with('message','Debes iniciar sesión para ver tu información');
+    }
+    public function comprobarUsername($username)
+    {
+        $un=Usuario::where('username', $username)->first();
+        if($un){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

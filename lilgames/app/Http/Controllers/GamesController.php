@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Games;
-use App\Models\GamesFav;
 use Illuminate\Http\Request;
 
 class GamesController extends Controller
 {
     public function welcome()
     {
-        $games = Games::all();
+        $games = $this->juegos();
         $gamesFav = new GamesFavController();
         $gamesFav = $gamesFav->showFavs();
         return view('welcome', compact('games', 'gamesFav' ));
+    }
+    public function juegos()
+    {
+        return Games::all();
     }
     public function search(Request $request)
     {
@@ -32,6 +35,9 @@ class GamesController extends Controller
     }
     public function stats()
     {
-        return Auth::check()?view('stats.stats'):redirect()->route('login')->with('message','Debes iniciar sesión para ver las estadisticas');
+        $statsControl=new StatsController();
+        $statsControlPuntos = $statsControl->showStatsPoints();
+        $statsControlTime = $statsControl->showStatsTime();
+        return Auth::check()?view('stats.stats', compact('statsControlPuntos','statsControlTime')):redirect()->route('login')->with('message','Debes iniciar sesión para ver estas estadisticas');;
     }
 }

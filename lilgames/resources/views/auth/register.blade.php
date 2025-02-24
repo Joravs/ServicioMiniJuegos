@@ -1,6 +1,6 @@
 <x-layout>
     <div id="form" class="rounded d-flex flex-column justify-content-center align-item-center mx-auto p-3" style="width: 50rem; padding-top:20vh;">
-        <form class="row g-3 needs-validation" autocomplete="off" method="post" action="{{route('create');}}">
+        <form id="formRegister" class="row g-3 needs-validation" autocomplete="off" method="post" action="{{route('create');}}">
             @csrf
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -46,4 +46,5 @@
         </form>
     </div>
     @vite(['resources/js/validations/validarPwd.js'])
+    @vite(['resources/js/validations/validarUsuario.js'])
 </x-layout>

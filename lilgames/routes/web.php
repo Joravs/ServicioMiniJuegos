@@ -10,6 +10,8 @@ use App\Http\Controllers\AuthController;
 Route::get('/',[GamesController::class, 'welcome'])->name('index');
 // Register Form
 Route::get('/registerForm',[AuthController::class, 'registerForm'])->name('register');
+// Register Form
+Route::get('/user/check/{username}',[UserController::class, 'comprobarUsername']);
 // Login Form
 Route::get('/loginForm',[AuthController::class, 'loginForm'])->name('login');
 // Logout Form

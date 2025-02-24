@@ -6,6 +6,7 @@ CREATE TABLE juegos
   idJuego INT NOT NULL auto_increment,
   nombreJuego VARCHAR(25) NOT NULL,
   info TEXT(255) NOT NULL,
+  tipo ENUM ('Tiempo','Puntos'),
   PRIMARY KEY (idJuego)
 );
 
@@ -60,3 +61,10 @@ CREATE TABLE statsTime
 CREATE USER 'adminGames'@'%' IDENTIFIED BY 'adminGames';
 GRANT ALL ON lilgames.* TO 'adminGames';
 FLUSH PRIVILEGES;
+
+
+INSERT INTO juegos (nombreJuego, info, tipo) VALUES
+('Buscaminas', 'El videojuego presenta una cuadrícula de casillas en las que se puede hacer clic, donde hay «minas» ocultas esparcidas por todo el tablero. El objetivo es limpiar el tablero sin detonar ninguna mina, con la ayuda de pistas sobre el número de minas vecinas en las casillas circundantes', 'Tiempo');
+
+INSERT INTO juegos (nombreJuego, info, tipo) VALUES
+('Snake', 'El jugador debe evitar que la serpeinte choque contra obstáculos o se coma a sí misma, algo que se vuelve más difícil a medida que la serpiente se alarga.', 'Puntos');
