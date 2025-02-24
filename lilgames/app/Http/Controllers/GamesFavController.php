@@ -11,8 +11,11 @@ class GamesFavController extends Controller
 {
     public function favs()
     {
+        return view('games.favs');
+    }
+    public function showFavs()
+    {
         $hayJuegos = \DB::select('SELECT idJuego FROM juegosFavs WHERE idUsuario = :idUsuario', ['idUsuario' => Auth::id()]);
-        
         if (count($hayJuegos)>0) {
             $ids = array_map(function ($item) {
                 return $item->idJuego;
@@ -21,18 +24,19 @@ class GamesFavController extends Controller
         } else {
             $gamesfav = collect([]);
         }
-
-        return Auth::check()?view('games.favs', compact('gamesfav')):redirect()->route('login')->with('message','Debes iniciar sesión para ver tus juegos favoritos');
+        return compact('gamesfav');
     }
-    public function controlFav(Request $request)
+    public function controlFav($request)
     {
-        $idJuego = $request->idJuego;
+        $idJuego = $request;
         $idUsuario = Auth::id();
-        $fav=GamesFav::where('idJuego', $idJuego)->where('idUsuario', $idUsuario)->first();
+        $fav = GamesFav::where('idJuego', $idJuego)->where('idUsuario', $idUsuario)->first();
         if ($fav) {
-            $fav->delete();
+            \DB::delete('DELETE FROM juegosFavs WHERE idJuego = :idJuego AND idUsuario = :idUsuario', ['idJuego' => $idJuego, 'idUsuario' => $idUsuario]);
+            return true;
         } else {
-            GamesFav::create(['idJuego' => $idJuego, 'idUsuario' => $idUsuario]);
+            \DB::insert('INSERT INTO juegosFavs (`idJuego`, `idUsuario`) VALUES (:idJuego , :idUsuario)', ['idJuego' => $idJuego, 'idUsuario' => $idUsuario]);
+            return false;
         }
     }
 }

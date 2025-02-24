@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/style.css');}}">
     <link rel="icon" href="{{asset('favicon.png');}}" type="image/png">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @vite(['resources/js/app.js'])
 </head>
 <body>
     <div class="container-fluid bg-grad vh-100">
@@ -41,7 +43,7 @@
                     </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0 d-flex" action="{{route('search');}}">
-                        <input class="form-control mr-sm-2 placeholder" type="search" name="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control mr-sm-2 placeholder" type="search" name="search" placeholder="Search">
                         <button class="btn my-2 my-sm-0 fs-3" type="submit">🔍</button>
                     </form>
                 </div>
@@ -49,7 +51,6 @@
         </div>
         {{$slot}}
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
