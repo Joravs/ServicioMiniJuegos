@@ -15,7 +15,7 @@
             @endforeach
             @foreach($games as $game)
                 @php
-                    $color = in_array($game->idJuego, $idJuego) ? 'yellow' : 'transparent'; // Asignar color según la existencia en $idJuego
+                    $color = in_array($game->idJuego, $idJuego) ? 'gold' : 'transparent';
                 @endphp
                 <div class="card col m-2 border-white text-center">
                     @if(Auth::check())
