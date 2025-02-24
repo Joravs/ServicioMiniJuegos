@@ -18,8 +18,5 @@
         </div>
         @endforeach
     </div>
-    <script>
-        const controlFavURL = "{{route('controlFav');}}";
-    </script>
     @vite(['resources/js/validations/fav.js'])
 </x-layout>

@@ -4,11 +4,11 @@ $(document).ready(function() {
             let gameId = $(this).attr('id');
             let token = $('input[type="hidden"]').attr('value');
             $.ajax({
-                url: controlFavURL,
+                url: '/catalog/fav/control',
                 method: 'POST',
                 data: {
                     idJuego: gameId,
-                    _token: token
+                    _token: $('meta[name="csrf-token"]').attr('content'),
                 }
             });
         });
