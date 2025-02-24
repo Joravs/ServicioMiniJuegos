@@ -15,6 +15,7 @@ const start = () => {
                     }else{
                         $(e).css('color','gold');
                     }
+                    location.reload();
                 }
             });
         });
