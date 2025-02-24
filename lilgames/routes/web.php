@@ -30,7 +30,7 @@ Route::get('/my-profile',[UserController::class, 'myprofile'])->name('myprofile'
 //Games Fav
 Route::get('/catalog/fav',[GamesFavController::class, 'favs'])->name('favs');
 //Games Fav add
-Route::post('/catalog/fav/control',[GamesFavController::class, 'controlFav'])->name('controlFav');
+Route::post('/catalog/fav/control/{$idJuego}',[GamesFavController::class, 'controlFav'])->name('controlFav');
 
 // Create User
 Route::post('/create',[UserController::class, 'create'])->name('create');
