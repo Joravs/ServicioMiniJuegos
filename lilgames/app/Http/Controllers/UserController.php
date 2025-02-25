@@ -30,13 +30,13 @@ class UserController extends Controller
             Auth::login($un);
             return redirect()->route('index');
         }else{
-            return redirect()->route('login')->with('error', 'Usuario o Contraseña Incorrectos');
+            return redirect()->route('index')->with('error', 'Usuario o Contraseña Incorrectos');
         }
     }
     public function myprofile()
     {
         $user = Usuario::find(Auth::id());
-        return Auth::check()?view('user.myprofile', compact('user')):redirect()->route('login')->with('message','Debes iniciar sesión para ver tu información');
+        return Auth::check()?view('user.myprofile', compact('user')):redirect()->route('index')->with('message','Debes iniciar sesión para ver tu información');
     }
     public function comprobarUsername($username)
     {

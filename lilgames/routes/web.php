@@ -8,13 +8,6 @@ use App\Http\Controllers\AuthController;
 
 // Home Page
 Route::get('/',[GamesController::class, 'welcome'])->name('index');
-// Register Form
-Route::get('/registerForm',[AuthController::class, 'registerForm'])->name('register');
-// Register Form Username
-Route::get('/user/check/{username}',[UserController::class, 'comprobarUsername']);
-// Login Form
-Route::get('/loginForm',[AuthController::class, 'loginForm'])->name('login');
-
 
 //Search Games
 Route::get('/catalog/search',[GamesController::class, 'search'])->name('search');
@@ -28,8 +21,14 @@ Route::get('/catalog/favs',[GamesFavController::class, 'showFavs']);
 //Games Fav add
 Route::get('/catalog/fav/control/{idJuego}',[GamesFavController::class, 'controlFav']);
 
+// Register Form
+Route::get('/registerForm',[AuthController::class, 'registerForm'])->name('register');
+// Register Form Username
+Route::get('/user/check/{username}',[UserController::class, 'comprobarUsername']);
 // Create User
 Route::post('/create',[UserController::class, 'create'])->name('create');
+// Login Form
+Route::get('/loginForm',[AuthController::class, 'loginForm'])->name('login');
 // User Login
 Route::post('/validate',[UserController::class, 'validate'])->name('validate');
 // Logout

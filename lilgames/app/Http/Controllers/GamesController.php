@@ -29,22 +29,22 @@ class GamesController extends Controller
     }
     public function buscaminas()
     {
-        return Auth::check()?view('games.Buscaminas'):redirect()->route('login')->with('message','Debes iniciar sesión para jugar a este videojuego');
+        return Auth::check()?view('games.Buscaminas'):redirect()->route('index')->with('message','Debes iniciar sesión para jugar a este videojuego');
     }
     public function snake()
     {
-        return Auth::check()?view('games.Snake'):redirect()->route('login')->with('message','Debes iniciar sesión para jugar a este videojuego');
+        return Auth::check()?view('games.Snake'):redirect()->route('index')->with('message','Debes iniciar sesión para jugar a este videojuego');
     }
     public function chess()
     {
-        return Auth::check()?view('games.Chess'):redirect()->route('login')->with('message','Debes iniciar sesión para jugar a este videojuego');
+        return Auth::check()?view('games.Chess'):redirect()->route('index')->with('message','Debes iniciar sesión para jugar a este videojuego');
     }
     public function stats()
     {
         $statsControl=new StatsController();
         $statsControlPuntos = $statsControl->showStatsPoints();
         $statsControlTime = $statsControl->showStatsTime();
-        return Auth::check()?view('stats.stats', compact('statsControlPuntos','statsControlTime')):redirect()->route('login')->with('message','Debes iniciar sesión para ver estas estadisticas');;
+        return Auth::check()?view('stats.stats', compact('statsControlPuntos','statsControlTime')):redirect()->route('index')->with('message','Debes iniciar sesión para ver estas estadisticas');;
     }
 
     

@@ -1,5 +1,5 @@
 <x-layout>
-    <div id="Carrusel" class="row mx-auto">
+    <div id="Carrusel" class="bg-grad row mx-auto">
         <div id="carouselIdPoints" class="carousel slide my-5" data-bs-ride="carousel">
             <ol class="carousel-indicators">
                 @foreach($statsControlPuntos['statsPuntos'] as $index => $statsPoints)

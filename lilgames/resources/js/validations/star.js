@@ -20,6 +20,7 @@ const start = () => {
             });
         });
     });
+    $('#btnlog').on('click',()=>{$('#log').addClass('d-none')});
 }
 export default start;
 $(document).ready(start);

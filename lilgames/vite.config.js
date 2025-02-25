@@ -5,7 +5,8 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js', 
-                'resources/js/validations/validarPwd.js','resources/js/validations/fav.js','resources/js/validations/star.js','resources/js/validations/validarUsuario.js'],
+                'resources/js/validations/validarPwd.js','resources/js/validations/fav.js','resources/js/validations/star.js','resources/js/validations/validarUsuario.js',
+                'resources/js/validations/authForms.js'],
             refresh: true,
         }),
     ],
