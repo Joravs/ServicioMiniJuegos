@@ -13,7 +13,7 @@ CREATE TABLE juegos
 CREATE TABLE usuarios
 (
   idUsuario INT NOT NULL auto_increment,
-  nombre VARCHAR(50) NOT NULL,
+  nombre VARCHAR(100) NOT NULL,
   username VARCHAR(25) NOT NULL,
   passwd VARCHAR(255) NOT NULL,
   nivel INT NOT NULL,

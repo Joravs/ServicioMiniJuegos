@@ -13,7 +13,7 @@
             @endif
             <div class="mb-3 col-12 text-center">
                 <label for="nombre" class="form-label text-white fs-5">Nombre Completo</label>
-                <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" required maxlength="15" required/>
+                <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" required maxlength="100" required/>
             </div>
             <div class="mb-3 col-12 text-center">
                 <label for="username" class="form-label text-white fs-5">Usuario</label>

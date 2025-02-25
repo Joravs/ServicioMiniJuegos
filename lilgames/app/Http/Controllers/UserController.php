@@ -35,7 +35,8 @@ class UserController extends Controller
     }
     public function myprofile()
     {
-        return Auth::check()?view('user.myprofile'):redirect()->route('login')->with('message','Debes iniciar sesión para ver tu información');
+        $user = Usuario::find(Auth::id());
+        return Auth::check()?view('user.myprofile', compact('user')):redirect()->route('login')->with('message','Debes iniciar sesión para ver tu información');
     }
     public function comprobarUsername($username)
     {

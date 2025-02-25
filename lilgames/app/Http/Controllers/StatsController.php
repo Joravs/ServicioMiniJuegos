@@ -27,14 +27,14 @@ class StatsController extends Controller
     {
         $statsPuntos = \DB::select('SELECT nombreJuego,partidasJugadas,recordPoints from stats inner join statsPoints on (stats.idJuego = statsPoints.idJuego and stats.idUsuario = statsPoints.idUsuario)
          inner join juegos on stats.idJuego = juegos.idJuego
-         where stats.idUsuario=:idUsuario order by recordPoints ASC LIMIT 1', ['idUsuario' => Auth::id()]);
+         where stats.idUsuario=:idUsuario order by recordPoints ASC', ['idUsuario' => Auth::id()]);
         return compact('statsPuntos');
     }
     public function showStatsTime()
     {
         $statsTiempo = \DB::select('SELECT nombreJuego,partidasJugadas,recordTime from stats inner join statsTime on (stats.idJuego = statsTime.idJuego and stats.idUsuario = statsTime.idUsuario)
          inner join juegos on stats.idJuego = juegos.idJuego
-         where stats.idUsuario=:idUsuario order by recordTime ASC LIMIT 1', ['idUsuario' => Auth::id()]);
+         where stats.idUsuario=:idUsuario order by recordTime ASC', ['idUsuario' => Auth::id()]);
         return compact('statsTiempo');
     }
 }

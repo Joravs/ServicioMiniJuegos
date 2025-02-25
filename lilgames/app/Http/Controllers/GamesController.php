@@ -23,7 +23,9 @@ class GamesController extends Controller
     {
         $search = $request->search;
         $games = Games::where('nombreJuego','like','%'.$search.'%')->paginate(5);
-        return view('welcome', compact('games'));
+        $gamesFav = new GamesFavController();
+        $gamesFav = $gamesFav->showFavs();
+        return view('welcome', compact('games', 'gamesFav'));
     }
     public function buscaminas()
     {
@@ -32,6 +34,10 @@ class GamesController extends Controller
     public function snake()
     {
         return Auth::check()?view('games.Snake'):redirect()->route('login')->with('message','Debes iniciar sesión para jugar a este videojuego');
+    }
+    public function chess()
+    {
+        return Auth::check()?view('games.Chess'):redirect()->route('login')->with('message','Debes iniciar sesión para jugar a este videojuego');
     }
     public function stats()
     {

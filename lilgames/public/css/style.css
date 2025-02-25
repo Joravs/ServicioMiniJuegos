@@ -67,3 +67,6 @@ a{
 #Carrusel{
     width: 80vw;
 }
+.bg-prpl{
+    background-color: var(--color-prpl);
+}
