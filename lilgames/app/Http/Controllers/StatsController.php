@@ -23,6 +23,24 @@ class StatsController extends Controller
             }
         }
     }
+    public function updateOrCreateStats($idJuego)
+    {
+        $users = \DB::select('SELECT idUsuario FROM usuarios');
+        $statsExistentes = \DB::select('SELECT partidasJugadas FROM stats where idJuego = :idJuego',['idJuego' => $idJuego]);
+        $statsTime = \DB::select('SELECT recordPoints FROM statsTime where idJuego = :idJuego',['idJuego' => $idJuego]);
+        $statsPoint = \DB::select('SELECT recordTime FROM statsPoints where idJuego = :idJuego',['idJuego' => $idJuego]);
+        $partidasJugadas=count($statsExistentes)>0?$statsExistentes->partidasJugadas:0; 
+        $tiempo=count($statsTime)>0?$tiempo=$statsTime->recordTime:0; 
+        $puntos=count($statsPoint)>0?$statsPoint->recordPoints:0;
+        foreach($users as $user){
+            $stats = Stats::updateOrCreate(['idJuego'=>$idJuego, 'idUsuario' => $user->idUsuario], ['partidasJugadas'=>$partidasJugadas]);
+            if($game->tipo=='Tiempo'){
+                $statsTime = StatsTime::updateOrCreate(['idUsuario' => $user->idUsuario,'idJuego' => $idJuego],['recordTime'=>$tiempo]);
+            }else{
+                $statsPoint = StatsPoints::updateOrCreate(['idUsuario' => $user->idUsuario,'idJuego' => $idJuego],['recordPoints'=>$puntos]);
+            }
+        }
+    }
     public function showStatsPoints()
     {
         $statsPuntos = \DB::select('SELECT nombreJuego,partidasJugadas,recordPoints from stats inner join statsPoints on (stats.idJuego = statsPoints.idJuego and stats.idUsuario = statsPoints.idUsuario)

@@ -15,6 +15,17 @@ class GamesController extends Controller
         $gamesFav = $gamesFav->showFavs();
         return view('welcome', compact('games', 'gamesFav' ));
     }
+    public function updateOrCreate(Request $request)
+    {
+        $game = Games::updateOrCreate(['nombreJuego'=>$request->nombreJuego],[$validateData]);
+        $cg = new StatsController;
+        $cg->updateOrCreateStats($game->idJuego);
+        return redirect()->route('index')->with('message','Juego añadido correctamente');
+    }
+    public function createForm()
+    {
+        return view('games.create');
+    }
     public function juegos()
     {
         return Games::all();
@@ -46,6 +57,5 @@ class GamesController extends Controller
         $statsControlTime = $statsControl->showStatsTime();
         return Auth::check()?view('stats.stats', compact('statsControlPuntos','statsControlTime')):redirect()->route('index')->with('message','Debes iniciar sesión para ver estas estadisticas');;
     }
-
     
 }

@@ -40,6 +40,10 @@ Route::get('/my-profile',[UserController::class, 'myprofile'])->name('myprofile'
 ######### Juegos ################
 #################################
 
+//Create Game Form
+Route::post('/catalog/create',[GamesController::class, 'createForm'])->name('createForm');
+//Create Game on database
+Route::post('/catalog/create/form',[GamesController::class, 'updateOrCreate'])->name('updateOrCreate');
 //Buscaminas Game
 Route::get('/catalog/Buscaminas',[GamesController::class, 'buscaminas'])->name('Buscaminas');
 //Snake Game
