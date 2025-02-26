@@ -2,7 +2,7 @@ const loginForm = $('#loginForm');
 const registerForm = $('#registerForm');
 const mostrarForm = $('#mostrarForm');
 const cerrarForm = $('#cerrarForm');
-const body = $('.container-fluid');
+const body = $('#contenido');
 
 const formularios = () =>{
     loginForm.on('click', ()=>{

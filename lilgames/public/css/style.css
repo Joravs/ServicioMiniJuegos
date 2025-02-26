@@ -70,3 +70,7 @@ a{
 .bg-prpl{
     background-color: var(--color-prpl);
 }
+#cerrarForm{
+    width: 99%;
+    height: 90%;
+}
