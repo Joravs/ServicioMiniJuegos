@@ -29,7 +29,7 @@ class GamesController extends Controller
     public function createForm()
     {
         $user = Auth::user();
-        return $user->idUsuario==1?view('games.create'):redirect('/');
+        return $user->idUsuario==1?view('control.games.create'):redirect('/');
     }
     public function juegos()
     {

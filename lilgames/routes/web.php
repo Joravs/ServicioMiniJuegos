@@ -41,9 +41,9 @@ Route::get('/my-profile',[UserController::class, 'myprofile']);
 ###################################################################
 
 //Create Game Form
-Route::get('/catalog/create',[GamesController::class, 'createForm']);
+Route::get('/control/create',[GamesController::class, 'createForm']);
 //Create Game on database
-Route::post('/catalog/create/form',[GamesController::class, 'updateOrCreate']);
+Route::post('/control/create/form',[GamesController::class, 'updateOrCreate']);
 //Buscaminas Game
 Route::get('/catalog/Buscaminas',[GamesController::class, 'buscaminas']);
 //Snake Game

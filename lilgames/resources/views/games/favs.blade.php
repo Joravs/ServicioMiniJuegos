@@ -3,6 +3,6 @@
         const baseUrl = '{{ asset("src") }}';
     </script>
     <div id="contenido" class="bg-grad row">
-        @vite(['resources/js/validations/fav.js'])
+        @vite(['resources/js/show/fav.js'])
     </div>
 </x-layout>
