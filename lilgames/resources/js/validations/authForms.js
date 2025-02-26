@@ -29,6 +29,7 @@ const formularios = () =>{
                 mostrarForm.append(response);
                 cerrarForm.show();
                 mostrarForm.show();
+                body.css('filter', 'blur(5px)');
                 $('body,html').css('overflow', 'hidden');
                 mostrarForm.css('filter', 'none');
             }
