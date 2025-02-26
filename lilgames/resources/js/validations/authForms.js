@@ -2,6 +2,7 @@ const loginForm = $('#loginForm');
 const registerForm = $('#registerForm');
 const mostrarForm = $('#mostrarForm');
 const cerrarForm = $('#cerrarForm');
+const body = $('.container-fluid');
 
 const formularios = () =>{
     loginForm.on('click', ()=>{
@@ -13,6 +14,8 @@ const formularios = () =>{
                 mostrarForm.append(response);
                 cerrarForm.show();
                 mostrarForm.show();
+                body.css('filter', 'blur(5px)');
+                body.css('overflow', 'none');
             }
         });
     });
@@ -25,12 +28,15 @@ const formularios = () =>{
                 mostrarForm.append(response);
                 cerrarForm.show();
                 mostrarForm.show();
+                body.css('overflow', 'none');
             }
         });
     });
     cerrarForm.on('click', ()=>{
         mostrarForm.hide();
         cerrarForm.hide();
+        body.css('filter', 'none');
+        body.css('overflow', 'auto');
     });
 }
 
