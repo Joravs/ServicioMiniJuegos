@@ -38,7 +38,7 @@ const formularios = () =>{
         mostrarForm.hide();
         cerrarForm.hide();
         body.css('filter', 'none');
-        body.css('overflow', 'auto');
+        $('body,html').css('overflow', 'auto');
     });
 }
 
