@@ -49,7 +49,7 @@
                 </div>
             </nav>
         </div>
-        <dialog id="cerrarForm" style="z-index:999;" class="border-0 m-0 p-0 bg-transparent"></dialog>
+        <dialog id="cerrarForm" style="z-index:999;" class="border-0 m-0 p-0 w-100 h-100 bg-transparent"></dialog>
         <dialog id="mostrarForm" style="z-index:1000;" class="mt-5 bg-grad mx-auto rounded-2 p-0"></dialog>
         {{$slot}}
     </div>
