@@ -15,7 +15,8 @@ const formularios = () =>{
                 cerrarForm.show();
                 mostrarForm.show();
                 body.css('filter', 'blur(5px)');
-                body.css('overflow', 'none');
+                body.css('overflow', 'hidden');
+                mostrarForm.css('filter', 'none');
             }
         });
     });
@@ -28,7 +29,8 @@ const formularios = () =>{
                 mostrarForm.append(response);
                 cerrarForm.show();
                 mostrarForm.show();
-                body.css('overflow', 'none');
+                body.css('overflow', 'hidden');
+                mostrarForm.css('filter', 'none');
             }
         });
     });
