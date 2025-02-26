@@ -14,7 +14,7 @@
     <div class="container-fluid bg-grad vh-100">
         <div id="navbar" class="row quintissential sticky-top">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand col-1 ps-4 ps-md-5 mx-auto" href="{{route('index');}}"><img id='favicon' src="{{asset('favicon.png');}}" alt=""></a>
+                <a class="navbar-brand col-1 ps-4 ps-md-5 mx-auto" href="/"><img id='favicon' src="{{asset('favicon.png');}}" alt=""></a>
                 <div class="d-none d-lg-block offset-5"></div>
                 <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse col col-md-5 ms-md-2 px-4 text-center" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link fs-5" href="{{route('index');}}">Inicio</a>
+                        <a class="nav-link fs-5" href="/">Inicio</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle fs-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -30,11 +30,11 @@
                         </a>
                         <div class="dropdown-menu col-7 text-center mx-auto" aria-labelledby="navbarDropdown">
                             @if (Auth::check())
-                            <a class="dropdown-item" href="{{route('stats');}}">Estadisticas de Juego</a>
-                            <a class="dropdown-item" href="{{route('favs');}}">Juegos Favoritos</a>
-                            <a class="dropdown-item" href="{{route('myprofile');}}">Mi perfil</a>
+                            <a class="dropdown-item" href="/stats">Estadisticas de Juego</a>
+                            <a class="dropdown-item" href="/catalog/favs">Juegos Favoritos</a>
+                            <a class="dropdown-item" href="/my-profile">Mi perfil</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{route('logout');}}">Salir</a>
+                            <a class="dropdown-item" href="/logout">Salir</a>
                             @else
                             <a id="loginForm" class="dropdown-item">Iniciar Sesion</a>
                             <a id="registerForm" class="dropdown-item">Registrarse</a>
@@ -42,7 +42,7 @@
                         </div>
                     </li>
                     </ul>
-                    <form class="form-inline col-9 text-center mx-auto my-2 my-lg-0 d-flex" action="{{route('search');}}">
+                    <form class="form-inline col-9 text-center mx-auto my-2 my-lg-0 d-flex" action="/catalog/search">
                         <input class="form-control me-sm-2 placeholder" type="search" name="search" placeholder="Search">
                         <button class="btn my-2 my-sm-0 fs-3 p-0" type="submit">🔍</button>
                     </form>

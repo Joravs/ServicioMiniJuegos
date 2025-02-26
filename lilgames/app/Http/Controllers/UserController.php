@@ -19,7 +19,7 @@ class UserController extends Controller
         $user = Usuario::create($validateData);
         $cg = new StatsController;
         $cg->createFirst($user->idUsuario);
-        return redirect()->route('index');
+        return redirect('/');
     }
 
     public function validate(Request $request)
@@ -28,15 +28,15 @@ class UserController extends Controller
 
         if($un && Hash::check($request->passwd,$un->passwd)){
             Auth::login($un);
-            return redirect()->route('index');
+            return redirect('/');
         }else{
-            return redirect()->route('index')->with('error', 'Usuario o Contraseña Incorrectos');
+            return redirect('/')->with('error', 'Usuario o Contraseña Incorrectos');
         }
     }
     public function myprofile()
     {
         $user = Usuario::find(Auth::id());
-        return Auth::check()?view('user.myprofile', compact('user')):redirect()->route('index')->with('message','Debes iniciar sesión para ver tu información');
+        return Auth::check()?view('user.myprofile', compact('user')):redirect('/')->with('message','Debes iniciar sesión para ver tu información');
     }
     public function comprobarUsername($username)
     {

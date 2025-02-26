@@ -23,21 +23,41 @@ class StatsController extends Controller
             }
         }
     }
-    public function updateOrCreateStats($idJuego)
+    public function createStats($idJuego,$tipo)
     {
         $users = \DB::select('SELECT idUsuario FROM usuarios');
-        $statsExistentes = \DB::select('SELECT partidasJugadas FROM stats where idJuego = :idJuego',['idJuego' => $idJuego]);
-        $statsTime = \DB::select('SELECT recordPoints FROM statsTime where idJuego = :idJuego',['idJuego' => $idJuego]);
-        $statsPoint = \DB::select('SELECT recordTime FROM statsPoints where idJuego = :idJuego',['idJuego' => $idJuego]);
-        $partidasJugadas=count($statsExistentes)>0?$statsExistentes->partidasJugadas:0; 
-        $tiempo=count($statsTime)>0?$tiempo=$statsTime->recordTime:0; 
-        $puntos=count($statsPoint)>0?$statsPoint->recordPoints:0;
-        foreach($users as $user){
-            $stats = Stats::updateOrCreate(['idJuego'=>$idJuego, 'idUsuario' => $user->idUsuario], ['partidasJugadas'=>$partidasJugadas]);
-            if($game->tipo=='Tiempo'){
-                $statsTime = StatsTime::updateOrCreate(['idUsuario' => $user->idUsuario,'idJuego' => $idJuego],['recordTime'=>$tiempo]);
+        foreach($users as $key=>$user){
+            $statsExistentes = \DB::select('SELECT partidasJugadas FROM stats where idJuego = :idJuego and idUsuario = :idUsuario',['idJuego' => $idJuego, 'idUsuario'=>$user->idUsuario]);
+            $partidasJugadas = count($statsExistentes)>0?$statsExistentes[0]->partidasJugadas:0;
+            
+            if($statsExistentes){
+                $updateOrCreate='update';
+                $stats = \DB::update('UPDATE stats SET partidasJugadas = :partidasJugadas WHERE idJuego = :idJuego and idUsuario= :idUsuario',['idJuego'=>$idJuego, 'idUsuario' => $user->idUsuario,'partidasJugadas'=>$partidasJugadas]);
             }else{
-                $statsPoint = StatsPoints::updateOrCreate(['idUsuario' => $user->idUsuario,'idJuego' => $idJuego],['recordPoints'=>$puntos]);
+                $updateOrCreate='insert';
+                $stats = \DB::insert('INSERT INTO stats (idJuego,idUsuario,partidasJugadas) values (:idJuego,:idUsuario,:partidasJugadas)',['idJuego'=>$idJuego, 'idUsuario' => $user->idUsuario,'partidasJugadas'=>$partidasJugadas]);
+            }
+            $statsTime = \DB::select('SELECT recordTime FROM statsTime where idJuego = :idJuego and idUsuario = :idUsuario',['idJuego' => $idJuego, 'idUsuario'=>$user->idUsuario]);
+            $statsPoints = \DB::select('SELECT recordPoints FROM statsPoints where idJuego = :idJuego and idUsuario = :idUsuario',['idJuego' => $idJuego, 'idUsuario'=>$user->idUsuario]);
+            
+            if($tipo=='Tiempo'){
+                $time = count($statsTime)>0?$statsTime[0]->recordTime:"00:00";
+                if($statsTime){
+                    if($statsPoints){$statsPoints = \DB::delete('DELETE FROM statsPoints WHERE idJuego = :idJuego and idUsuario = :idUsuario', ['idJuego' => $idJuego, 'idUsuario'=>$user->idUsuario]);}                    
+                    $statsTime = \DB::update('UPDATE statsTime SET recordTime = :recodTime WHERE idJuego = :idJuego and idUsuario= :idUsuario',['idJuego'=>$idJuego, 'idUsuario' => $user->idUsuario,'recodTime'=>$time]);
+                }else{
+                    if($statsPoints){$statsPoints = \DB::delete('DELETE FROM statsPoints WHERE idJuego = :idJuego and idUsuario = :idUsuario', ['idJuego' => $idJuego, 'idUsuario'=>$user->idUsuario]);}                    
+                    $statsTime = \DB::insert('INSERT INTO statsTime (idJuego,idUsuario,recordTime) values (:idJuego,:idUsuario,:recodTime)',['idJuego'=>$idJuego, 'idUsuario' => $user->idUsuario,'recodTime'=>$time]);
+                }
+            }else if($tipo=='Puntos'){
+                $points = count($statsPoints)>0?$statsPoints[0]->recordPoints:0;
+                if($statsPoints){
+                    if($statsTime){$statsTiempo = \DB::delete('DELETE FROM statsTime WHERE idJuego = :idJuego and idUsuario = :idUsuario', ['idJuego' => $idJuego, 'idUsuario'=>$user->idUsuario]);}
+                    $statsPoints = \DB::update('UPDATE statsPoints SET recordPoints=:recordPoints WHERE idJuego = :idJuego and idUsuario= :idUsuario',['idJuego'=>$idJuego, 'idUsuario' => $user->idUsuario,'recordPoints'=>$points]);
+                }else{
+                    if($statsTime){$statsTiempo = \DB::delete('DELETE FROM statsTime WHERE idJuego = :idJuego and idUsuario = :idUsuario', ['idJuego' => $idJuego, 'idUsuario'=>$user->idUsuario]);}
+                    $statsPoints = \DB::insert('INSERT INTO statsPoints (idJuego,idUsuario,recordPoints) values (:idJuego,:idUsuario,:recordPoints)',['idJuego'=>$idJuego, 'idUsuario' => $user->idUsuario,'recordPoints'=>$points]);
+                }
             }
         }
     }

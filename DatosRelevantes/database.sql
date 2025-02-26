@@ -62,9 +62,16 @@ CREATE USER 'adminGames'@'%' IDENTIFIED BY 'adminGames';
 GRANT ALL ON lilgames.* TO 'adminGames';
 FLUSH PRIVILEGES;
 
+-- Inserción de datos de ejemplo
+INSERT INTO usuarios (idUsuario,nombre, username, passwd, nivel) VALUES (1,'Administrador', 'admin', '$2y$12$GCV..VYsXyf8X..6ufZhROckWnSkFv7pLBTUaiEDhNfXry/.emiw2', 0);
 
 INSERT INTO juegos (nombreJuego, info, tipo) VALUES
 ('Buscaminas', 'El videojuego presenta una cuadrícula de casillas en las que se puede hacer clic, donde hay «minas» ocultas esparcidas por todo el tablero. El objetivo es limpiar el tablero sin detonar ninguna mina, con la ayuda de pistas sobre el número de minas vecinas en las casillas circundantes', 'Tiempo');
 
 INSERT INTO juegos (nombreJuego, info, tipo) VALUES
 ('Snake', 'El jugador debe evitar que la serpeinte choque contra obstáculos o se coma a sí misma, algo que se vuelve más difícil a medida que la serpiente se alarga.', 'Puntos');
+
+-- Datos alterados desde la primera versión
+-- Se agrego la columna 'tipo' a la tabla juegos
+-- Se agrego la columa 'img' a la tabla juegos
+-- 

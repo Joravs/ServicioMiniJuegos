@@ -4,7 +4,7 @@
         {{ session('message') }}
     </div>
 @endif
-    <form class="row g-3 needs-validation opacity-100 " method="post" action="{{route('validate');}}" autocomplete="off">
+    <form class="row g-3 needs-validation opacity-100 " method="post" action="/validate" autocomplete="off">
         @csrf
         <div class="mb-3 row-12 text-center">
             <label for="username" class="form-label text-white fs-5">Usuario</label>
@@ -16,5 +16,5 @@
         </div>
         <button name="login" type="submit" class="btn btn-info btn-md">Iniciar Sesion</button>
     </form>
-    <a id="linkreg" href="{{route('register');}}" class="text-center mt-3">¿No estas registrado? Click aqui</a>
+    <a id="linkreg" href="/registerForm" class="text-center mt-3">¿No estas registrado? Click aqui</a>
 </div>

@@ -26,7 +26,7 @@
                         <polygon points="50,5 63,38 98,38 69,59 82,92 50,71 18,92 31,59 2,38 37,38" fill="{{ $color }}" stroke="black" stroke-width="3"/>
                     </svg>
                     @endif
-                    <a href="{{ route($game->nombreJuego) }}">
+                    <a href="/catalog/{{$game->nombreJuego}}">
                         <img class="card-img-top juegos align-self-center img-fluid" src="{{ asset('src/'.$game->nombreJuego.'.png') }}" alt="{{ $game->nombreJuego }} Logo"/>
                         <div class="card-body bg-prpl">
                             <h4 class="card-title titulos fs-5 text-white">{{ $game->nombreJuego }}</h4>
