@@ -31,7 +31,7 @@
                         <div class="dropdown-menu col-7 text-center mx-auto" aria-labelledby="navbarDropdown">
                             @if (Auth::check())
                             <a class="dropdown-item" href="/stats">Estadisticas de Juego</a>
-                            <a class="dropdown-item" href="/catalog/favs">Juegos Favoritos</a>
+                            <a class="dropdown-item" href="/catalog/fav">Juegos Favoritos</a>
                             <a class="dropdown-item" href="/my-profile">Mi perfil</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Salir</a>

@@ -14,7 +14,8 @@ const show = (gamesfav) => {
 $(document).ready(()=> {
     $.ajax({
         url: '/catalog/favs',
-        method: 'GET',
+        method: 'post',
+        data: {_token: $('meta[name="csrf-token"]').attr('content')},
         success: (gamesfav) => {
             show(gamesfav);
             start();

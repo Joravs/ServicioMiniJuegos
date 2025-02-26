@@ -17,14 +17,14 @@ Route::get('/stats',[GamesController::class, 'stats']);
 //Games Fav
 Route::get('/catalog/fav',[GamesFavController::class, 'favs']);
 //Games Fav
-Route::get('/catalog/favs',[GamesFavController::class, 'showFavs']);
+Route::post('/catalog/favs',[GamesFavController::class, 'showFavs']);
 //Games Fav add
-Route::get('/catalog/fav/control/{idJuego}',[GamesFavController::class, 'controlFav']);
+Route::post('/catalog/fav/control/{idJuego}',[GamesFavController::class, 'controlFav']);
 
 // Register Form
 Route::get('/registerForm',[AuthController::class, 'registerForm']);
 // Register Form Username
-Route::get('/user/check/{username}',[UserController::class, 'comprobarUsername']);
+Route::post('/user/check/{username}',[UserController::class, 'comprobarUsername']);
 // Create User
 Route::post('/create',[UserController::class, 'create']);
 // Login Form
@@ -36,9 +36,9 @@ Route::get('/logout',[AuthController::class, 'logout']);
 //My Profile
 Route::get('/my-profile',[UserController::class, 'myprofile']);
 
-#################################
-######### Juegos ################
-#################################
+###################################################################
+########################### Juegos ################################
+###################################################################
 
 //Create Game Form
 Route::get('/catalog/create',[GamesController::class, 'createForm']);

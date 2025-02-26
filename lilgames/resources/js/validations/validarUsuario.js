@@ -3,7 +3,8 @@ const username=$("#username");
 const validarUsuario=()=>{
     $.ajax({
         url: "/user/check/"+username.val(),
-        method: "get",
+        method: "post",
+        data: {_token: $('meta[name="csrf-token"]').attr('content')},
         success: (response) => {
             if(response){
                 username.removeClass("is-valid");

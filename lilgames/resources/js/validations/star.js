@@ -8,7 +8,8 @@ const start = () => {
             let gameId = $(this).attr('id');
             $.ajax({
                 url: '/catalog/fav/control/'+gameId,
-                method: 'GET',
+                method: 'POST',
+                data: {_token: $('meta[name="csrf-token"]').attr('content')},
                 success: (response) => {
                     if(response){
                         $(e).css('color','transparent');
