@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('statsPoints', function (Blueprint $table) {
             $table->unsignedBigInteger('idJuego');
             $table->unsignedBigInteger('idUsuario');
-            $table->integer('recordPoints');
+            $table->integer('recordPoints')->default(0);
             $table->primary(['idJuego', 'idUsuario']);
             $table->foreign('idJuego')->references('idJuego')->on('stats')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('idUsuario')->references('idUsuario')->on('stats')->onDelete('cascade')->onUpdate('cascade');

@@ -23,7 +23,7 @@ class JuegosController extends Controller
         }
         $game = Juegos::updateOrCreate(['nombreJuego'=>$request->nombreJuego],$actualizar);
         $cg = new StatsController;
-        $cg->createStats($game->idJuego,$game->tipo);
+        $cg->updateOrCreate($game->idJuego,$game->tipo);
         return redirect('/')->with('message','Juego añadido correctamente');
     }
     public function createForm()
@@ -39,7 +39,7 @@ class JuegosController extends Controller
     {
         $search = $request->search;
         $games = Juegos::where('nombreJuego','like','%'.$search.'%')->paginate(5);
-        $gamesFav = new GamesFavController();
+        $gamesFav = new JuegosFavController();
         $gamesFav = $gamesFav->showFavs();
         return view('welcome', compact('games', 'gamesFav'));
     }

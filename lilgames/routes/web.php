@@ -48,7 +48,3 @@ Route::post('/control/create/form',[JuegosController::class, 'updateOrCreate']);
 Route::get('/catalog/Buscaminas',[JuegosController::class, 'buscaminas']);
 //Snake Game
 Route::get('/catalog/Snake',[JuegosController::class, 'snake']);
-//Chess Game
-Route::get('/catalog/Chess',[JuegosController::class, 'chess']);
-//Chess Game
-Route::get('/catalog/Uno',[JuegosController::class, 'uno']);
