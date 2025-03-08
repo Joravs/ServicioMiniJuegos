@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('juegosFavs');
-        Schema::create('juegosFavs', function (Blueprint $table) {
+        Schema::dropIfExists('juegosFav');
+        Schema::create('juegosFav', function (Blueprint $table) {
             $table->unsignedBigInteger('idJuego');
             $table->unsignedBigInteger('idUsuario');
             $table->primary(['idJuego', 'idUsuario']);

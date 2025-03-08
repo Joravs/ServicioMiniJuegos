@@ -32,7 +32,7 @@ class JuegosFavController extends Controller
     {
         $idJuego = $request;
         $idUsuario = Auth::id();
-        $fav = JuegosFav::where('idJuego', $idJuego)->where('idUsuario', $idUsuario)->first();
+        $fav = JuegosFav::firstOrCreate(['idJuego'=>$idJuego,'idUsuario'=>$idUsuario]);
         if ($fav) {
             JuegosFav::destroy($fav->id);
             return true;
