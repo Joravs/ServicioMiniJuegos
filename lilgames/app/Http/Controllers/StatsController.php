@@ -12,7 +12,7 @@ class StatsController extends Controller
 {
     public function createFirst($id)
     {
-        $games = new GamesController;
+        $games = new JuegosController;
         $games = $games->juegos();
         foreach($games as $game){
             $stats = \DB::insert('INSERT INTO stats (idUsuario,idJuego,partidasJugadas) VALUES (:idUsuario,:idJuego ,0)', ['idUsuario' => $id, 'idJuego' => $game->idJuego]);

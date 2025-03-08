@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\Games;
+use App\Models\Juegos;
 use Illuminate\Http\Request;
 
-class GamesController extends Controller
+class JuegosController extends Controller
 {
     public function welcome()
     {
         $games = $this->juegos();
-        $gamesFav = new GamesFavController();
+        $gamesFav = new JuegosFavController();
         $gamesFav = $gamesFav->showFavs();
         return view('welcome', compact('games', 'gamesFav' ));
     }
@@ -21,7 +21,7 @@ class GamesController extends Controller
         if($request->info!=null){
             $actualizar['info'] = $request->info;
         }
-        $game = Games::updateOrCreate(['nombreJuego'=>$request->nombreJuego],$actualizar);
+        $game = Juegos::updateOrCreate(['nombreJuego'=>$request->nombreJuego],$actualizar);
         $cg = new StatsController;
         $cg->createStats($game->idJuego,$game->tipo);
         return redirect('/')->with('message','Juego añadido correctamente');
@@ -33,12 +33,12 @@ class GamesController extends Controller
     }
     public function juegos()
     {
-        return Games::all();
+        return Juegos::all();
     }
     public function search(Request $request)
     {
         $search = $request->search;
-        $games = Games::where('nombreJuego','like','%'.$search.'%')->paginate(5);
+        $games = Juegos::where('nombreJuego','like','%'.$search.'%')->paginate(5);
         $gamesFav = new GamesFavController();
         $gamesFav = $gamesFav->showFavs();
         return view('welcome', compact('games', 'gamesFav'));

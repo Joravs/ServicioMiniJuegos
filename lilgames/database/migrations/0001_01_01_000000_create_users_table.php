@@ -11,6 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('usuarios');
+        Schema::create('usuarios', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre',100);
+            $table->string('username',25)->unique();
+            $table->string('passwd',255);
+            $table->integer('nivel')->default(0);
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
@@ -26,6 +37,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('usuarios');
         Schema::dropIfExists('sessions');
     }
 };

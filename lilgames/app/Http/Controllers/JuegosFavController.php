@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Games;
-use App\Models\GamesFav;
+use App\Models\Juegos;
+use App\Models\JuegosFav;
 use Illuminate\Support\Facades\Auth;
 
-class GamesFavController extends Controller
+class JuegosFavController extends Controller
 {
     public function favs()
     {
@@ -15,22 +15,27 @@ class GamesFavController extends Controller
     }
     public function showFavs()
     {
-        $hayJuegos = \DB::select('SELECT idJuego FROM juegosFavs WHERE idUsuario = :idUsuario', ['idUsuario' => Auth::id()]);
+        /* $hayJuegos = \DB::select('SELECT idJuego FROM juegosFavs WHERE idUsuario = :idUsuario', ['idUsuario' => Auth::id()]);
         if (count($hayJuegos)>0) {
             $ids = array_map(function ($item) {
                 return $item->idJuego;
             }, $hayJuegos);
-            $gamesfav = Games::findMany($ids);
+            $gamesfav = Juegos::findMany($ids);
         } else {
             $gamesfav = collect([]);
-        }
+        } */
+       $hayJuegos = JuegosFav::where('idUsuario',Auth::id());
+       if($hayJuegos)
+       {
+        $gamesfav = Juegos::whereIn('idJuego', $hayJuegos->pluck('idJuego'))->get();
+       }
         return compact('gamesfav');
     }
     public function controlFav($request)
     {
         $idJuego = $request;
         $idUsuario = Auth::id();
-        $fav = GamesFav::where('idJuego', $idJuego)->where('idUsuario', $idUsuario)->first();
+        $fav = JuegosFav::where('idJuego', $idJuego)->where('idUsuario', $idUsuario)->first();
         if ($fav) {
             \DB::delete('DELETE FROM juegosFavs WHERE idJuego = :idJuego AND idUsuario = :idUsuario', ['idJuego' => $idJuego, 'idUsuario' => $idUsuario]);
             return true;
