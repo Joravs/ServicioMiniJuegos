@@ -12,13 +12,13 @@ class UsuarioController extends Controller
     public function create(Request $request)
     {
         $validateData = $request->validate([
-            'nombre' => ['required','max:255'],
+            'nombre' => ['required','max:100'],
             'username' => ['required','max:255','unique:usuarios'],
             'passwd' => ['required','min:8'],
         ]);
         $user = Usuario::create($validateData);
         $cg = new StatsController;
-        $cg->createFirst($user->idUsuario);
+        $cg->createFirst($user->id);
         return redirect('/');
     }
 
