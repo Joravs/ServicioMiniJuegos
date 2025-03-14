@@ -19,33 +19,39 @@
                 <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse col col-md-5 ms-md-2 px-4 text-center" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link fs-5" href="/">Inicio</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle fs-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Perfil
-                        </a>
-                        <div class="dropdown-menu col-7 text-center mx-auto" aria-labelledby="navbarDropdown">
-                            @if (Auth::check())
-                            <a class="dropdown-item" href="/stats">Estadisticas de Juego</a>
-                            <a class="dropdown-item" href="/catalog/fav">Juegos Favoritos</a>
-                            <a class="dropdown-item" href="/my-profile">Mi perfil</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout">Salir</a>
-                            @else
-                            <a id="loginForm" class="dropdown-item">Iniciar Sesion</a>
-                            <a id="registerForm" class="dropdown-item">Registrarse</a>
-                            @endif
-                        </div>
-                    </li>
-                    </ul>
-                    <form class="form-inline col-9 text-center mx-auto my-2 my-lg-0 d-flex" action="/catalog/search">
-                        <input class="form-control me-sm-2 placeholder" type="search" name="search" placeholder="Search">
+                <div class="collapse navbar-collapse col col-md-5 pe-4 text-center" id="navbarSupportedContent">
+                    <form class="form-inline col-5 text-center mx-auto my-2 my-lg-0 d-flex" action="/catalog/search">
+                        <input class="form-control me-sm-2" type="search" name="search" placeholder="Search" autocomplete="off">
                         <button class="btn my-2 my-sm-0 fs-3 p-0" type="submit">🔍</button>
                     </form>
+                    @if (Auth::check())
+                    <ul class="navbar-nav mx-auto col-4">
+                        <li class="nav-item active">
+                            <a class="nav-link fs-5" href="/">Inicio</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle fs-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Perfil
+                            </a>
+                            <div class="dropdown-menu col-7 text-center mx-auto" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/stats">Estadisticas de Juego</a>
+                                <a class="dropdown-item" href="/catalog/fav">Juegos Favoritos</a>
+                                <a class="dropdown-item" href="/my-profile">Mi perfil</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout">Salir</a>
+                            </div>
+                        </li>
+                    </ul>
+                    @else
+                    <div class="row col-5">
+                        <div class="col p-md-0 pe-md-1 text-center">
+                            <a id="loginForm" class="nav-link">Iniciar Sesion</a>
+                        </div>
+                        <div class="col p-md-0 ps-md-1">
+                            <a id="registerForm" class="nav-link">Registrarse</a>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </nav>
         </div>

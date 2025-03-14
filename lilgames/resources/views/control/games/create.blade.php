@@ -1,6 +1,6 @@
 <x-layout>
     <div id="form" class="rounded d-flex flex-column justify-content-center align-item-center mx-auto p-4 bg-grad">
-    <form id="formRegister" class="row g-3 needs-validation" autocomplete="off" method="post" action="/catalog/create/form">
+    <form id="formRegister" class="row g-3 needs-validation" autocomplete="off" method="post" action="/catalog/create">
         @csrf
         @if ($errors->any())
             <div class="alert alert-danger">

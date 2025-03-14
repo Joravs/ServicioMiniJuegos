@@ -4,7 +4,7 @@
         {{ session('message') }}
     </div>
 @endif
-    <form class="row g-3 needs-validation opacity-100 " method="post" action="/validate" autocomplete="off">
+    <form class="row g-3 needs-validation opacity-100 " method="post" action="/loginForm" autocomplete="off">
         @csrf
         <div class="mb-3 row-12 text-center">
             <label for="username" class="form-label text-white fs-5">Usuario</label>
