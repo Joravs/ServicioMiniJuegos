@@ -38,7 +38,7 @@ class JuegosController extends Controller
     public function search(Request $request)
     {
         $search = $request->search;
-        $games = Juegos::where('nombreJuego','like','%'.$search.'%')->paginate(5);
+        $games = Juegos::where('nombre','like','%'.$search.'%')->paginate(5);
         $gamesFav = new JuegosFavController();
         $gamesFav = $gamesFav->showFavs();
         return view('welcome', compact('games', 'gamesFav'));

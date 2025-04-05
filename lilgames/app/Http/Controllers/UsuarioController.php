@@ -30,7 +30,7 @@ class UsuarioController extends Controller
             Auth::login($un);
             return redirect('/');
         }else{
-            return redirect('/')->with('error', 'Usuario o Contraseña Incorrectos');
+            return redirect('/')->with('message', 'Usuario o Contraseña Incorrectos');
         }
     }
     public function myprofile()

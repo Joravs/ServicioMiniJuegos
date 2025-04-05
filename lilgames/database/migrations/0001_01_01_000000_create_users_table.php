@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('username',25)->unique();
             $table->string('passwd',255);
             $table->integer('nivel')->default(0);
+            $table->float('xp')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
