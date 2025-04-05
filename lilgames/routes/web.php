@@ -18,7 +18,7 @@ Route::get('/stats',[JuegosController::class, 'stats']);
 Route::get('/catalog/fav',[JuegosFavController::class, 'favs']);
 Route::post('/catalog/fav',[JuegosFavController::class, 'showFavs']);
 //Games Fav add
-Route::get('/catalog/fav/control/{idJuego}',[JuegosFavController::class, 'controlFav']);
+Route::post('/catalog/fav/control/{idJuego}',[JuegosFavController::class, 'controlFav']);
 
 // Register Form
 Route::get('/registerForm',[AuthController::class, 'registerForm']);

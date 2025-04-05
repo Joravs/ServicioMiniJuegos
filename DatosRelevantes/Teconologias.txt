@@ -1,10 +1,7 @@
 Bootstrap
 Vite.js
 Laravel
-Ajax
 MySQL
-Node.js
-
 
 
 LAMPP
