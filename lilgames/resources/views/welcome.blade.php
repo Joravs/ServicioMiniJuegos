@@ -1,17 +1,18 @@
 <x-layout>
-    <div id='contenido' class="row bg-grad px-3 justify-content-center gap-2">
+    <div id='contenido' class="row px-3 justify-content-center gap-2">
         @if(session('message'))
         <span id='log' class='col-12 d-flex justify-content-between py-2 mb-0 bg-light opacity-75'><p>{{session('message')}}</p><p id='btnlog'>X</p></span>
         @endif
         @php
             $color = 'transparent';
-            $idJuego = []; // Inicializar el array
+            $idJuego = [];
         @endphp
         @foreach($gamesFav as $fav)
             @foreach($fav as $key)
-                @if($key['idJuego'])
+                @if($key->id)
                     @php
-                        $idJuego[$key['idJuego']] = $key['idJuego'];
+                        $idJuego[$key->id] = $key->id;
+                        
                     @endphp
                 @endif
             @endforeach
