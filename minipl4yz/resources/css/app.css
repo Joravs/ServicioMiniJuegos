@@ -1,0 +1,91 @@
+@import url('https://fonts.cdnfonts.com/css/quintessential');
+@import url('https://fonts.cdnfonts.com/css/sci-fied-x');
+@import url('https://fonts.cdnfonts.com/css/aida-serif');
+:root{
+    --color-prpl: #514559;
+    --color-celst: #21BFAF;
+    --color-amll: #F2B544;
+    --color-nar: #F2A341;
+    --color-tmt:#F2594B ;
+}
+
+body{
+    background: #514559;
+    font-family:sans-serif;
+    margin: 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+}
+
+.Titulo{
+    background: linear-gradient(to right,#ff1f35 0,#fa54ff 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    font-size: 48px;
+}
+.quintissential{
+   font-family: 'Quintessential', sans-serif;
+}
+.titulos{
+   font-family: 'Sci Fied X', sans-serif;
+   color:var(--color-prpl);
+}
+.textos{
+    color:var(--color-celst);
+   font-family: 'AidaSerifObliqueMedium', sans-serif;
+}
+.bg-grad{
+    background: linear-gradient(var(--color-tmt) 20%,var(--color-nar),var(--color-amll));
+}
+#favicon{
+    width: 90px;
+}
+#navbar,.nav-link{
+    background-color: var(--color-prpl);
+    color: white;
+}
+#navbar::after{
+    content: '';
+    display: block;
+    background: black;
+    width: 100%;
+    height: 3px;
+}
+
+input[type="search"]{
+    background: transparent;
+}
+.placeholder::placeholder{
+    color: white;
+    opacity:1;
+}
+.juegos{
+    aspect-ratio: 1/1;
+    width: 200px;
+    height: 200px;
+}
+.star{
+    aspect-ratio: 1/1;
+    width: 64px;
+    color: transparent;
+}
+.dropdown-item:hover{
+    background-color: var(--color-prpl);
+    color: white;
+}
+.carousel-indicators li::marker {
+    content: none;
+}
+#Carrusel{
+    width: 80vw;
+}
+.bg-prpl{
+    background-color: var(--color-prpl);
+}
+#cerrarForm{
+    width: 99%;
+    height: 90%;
+}
