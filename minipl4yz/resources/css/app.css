@@ -8,20 +8,12 @@
     --color-nar: #F2A341;
     --color-tmt:#F2594B ;
 }
-
-body{
-    background: #514559;
-    font-family:sans-serif;
-    margin: 0;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: white;
+#root{
+    min-height: 100vh;
+    padding: 0;
 }
-
 .Titulo{
-    background: linear-gradient(to right,#ff1f35 0,#fa54ff 100%);
+    background: linear-gradient(to right,#F2594B 0,#F2B544 100%);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     font-size: 48px;
@@ -85,7 +77,14 @@ input[type="search"]{
 .bg-prpl{
     background-color: var(--color-prpl);
 }
+.bg-yell{
+    background-color: #F2A341;
+}
 #cerrarForm{
     width: 99%;
     height: 90%;
+}
+
+.gameCard{
+    max-width: 500px;
 }

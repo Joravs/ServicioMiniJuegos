@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 const NavBar=()=>{
+    const [title, setTitle] = useState('MiniPl4yz');
     const [check,setCheck]=useState(false)
     useEffect(()=>{
         const CheckLogin= async ()=>{
@@ -15,11 +16,19 @@ const NavBar=()=>{
     )
 
     return (
-    <nav className="navbar navbar-expand-lg navbar-light">
+    <div className="bg-prpl m-0">
+        <nav className="navbar navbar-expand-lg navbar-light">
         <a className="navbar-brand col-1 ps-4 ps-md-5 mx-auto" href="/">
-            <img id='favicon' src="src/favicon.ico" alt=""/>
+            <img id='favicon' src="favicon.png" alt=""/>
         </a>
-        <div className="d-none d-lg-block offset-5"></div>
+        <div className="d-none d-lg-block offset-2">
+            <h1 className="Titulo"
+                onMouseEnter={() => setTitle('Juega Ya!!')} 
+                onMouseLeave={() => setTitle('MiniPl4yz')}
+            >
+                {title}
+            </h1>
+        </div>
         <button className="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>
@@ -57,7 +66,9 @@ const NavBar=()=>{
             </div>
             }{/* Fin del CheckLog */}
         </div>
-    </nav>)
+    </nav>        
+    </div>
+)
 }
 
 export default NavBar

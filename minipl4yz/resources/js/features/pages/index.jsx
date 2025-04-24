@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import '../../../css/animations.css'
+import 'animate.css'
 
 const Index = () => {
-    const [title, setTitle] = useState('MiniPl4yz');
     const [result, setResult] = useState({ games: [] , gamesFav: []});
     const [loading, setLoading] = useState(true);
 
@@ -17,19 +18,19 @@ const Index = () => {
     }, []);
     
     return (
-      <div>
-        <h1 className="Titulo"
-          onMouseEnter={() => setTitle('Juega Ya!!')} 
-          onMouseLeave={() => setTitle('MiniPl4yz')}
-        >
-          {title}
-        </h1>
-    
+      <div id="JuegosCards" className="mx-3 row gap-3">
         {loading ? (
           <h3>Loading...</h3>
         ) : (
           result.games.original.juegos.map(game => (
-            <div className="card col-sm-5 col-md my-3 border-white text-center bg-prpl" key={game.id}>
+            <div id={`${game.nombre}`} className="card col-sm-6 col-md my-3 border-white text-center bg-prpl gameCard" 
+                key={game.id}
+
+                onMouseLeave={
+                  (e)=>{
+                    e.target.classList.remove('animate__animated');
+                    e.target.classList.remove('animate__bounce');}}
+              >
                 <a href={`/catalog/${game.nombre}`}>
                     <img className="card-img-top juegos align-self-center img-fluid" src={`src/${game.nombre}.png`} alt={`${game.nombre} Logo`}/>
                     <div className="card-body bg-prpl">

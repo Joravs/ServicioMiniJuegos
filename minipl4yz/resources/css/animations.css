@@ -1,0 +1,22 @@
+#Buscaminas{
+    animation: slideInLeft;
+    animation-duration: 1s;
+}
+#Buscaminas:hover img{
+    animation: bounce;
+    animation-duration: 1s;
+}
+
+#Snake{
+    animation: slideInRight;
+    animation-duration: 1s;
+}
+#Snake:hover img{
+    animation: rotateOut;
+    animation-duration: 1s;
+}
+
+.gameCard:hover{
+    animation:bounce;
+    animation-duration: 500ms;
+}
