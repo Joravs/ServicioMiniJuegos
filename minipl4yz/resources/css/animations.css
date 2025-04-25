@@ -20,3 +20,8 @@
     animation:bounce;
     animation-duration: 500ms;
 }
+
+#loginUser{
+    animation: slideInDown;
+    animation-duration: 1s;
+}

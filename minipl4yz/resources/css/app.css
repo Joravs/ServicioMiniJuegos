@@ -14,6 +14,7 @@
 }
 .Titulo{
     background: linear-gradient(to right,#F2594B 0,#F2B544 100%);
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     font-size: 48px;
