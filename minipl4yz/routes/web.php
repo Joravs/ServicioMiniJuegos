@@ -23,7 +23,7 @@ Route::post('/api/catalog/fav/control/{idJuego}',[JuegosFavController::class, 'c
 // Create User
 Route::post('/api/registerForm',[UsuarioController::class, 'create']);
 // Register Form Username
-Route::post('/api/user/check/{username}',[UsuarioController::class, 'comprobarUsername']);
+Route::post('/api/user/check',[UsuarioController::class, 'comprobarUsername']);
 
 //Comprobar Login
 Route::get('/api/checklogin',[AuthController::class, 'checkLogin']);

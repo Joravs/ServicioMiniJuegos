@@ -26,11 +26,11 @@ class UsuarioController extends Controller
     {
         $un=Usuario::where('username', $request->username)->first();
 
-        if($un && Hash::check($request->passwd,$un->passwd)){
+        if($un && Hash::check($request->password,$un->passwd)){
             Auth::login($un);
             return ['Auth'=>true];
         }else{
-            return response()->json(['message'=> 'Usuario o Contraseña Incorrectos']);
+            return ['Auth'=>false];
         }
     }
     public function myprofile()
@@ -38,13 +38,13 @@ class UsuarioController extends Controller
         $user = Usuario::find(Auth::id());
         return Auth::check()?['Auth'=>true]:response()->json(['message'=>'Debes iniciar sesión para ver tu información']);
     }
-    public function comprobarUsername($username)
+    public function comprobarUsername()
     {
-        $un=Usuario::where('username', $username)->first();
+        $un=Usuario::all();
         if($un){
-            return ['Valido'=>true];
+            return ['usernames'=>$un];
         }else{
-            return ['Valido'=>false];
+            return ['usernames'=>false];
         }
     }
 }

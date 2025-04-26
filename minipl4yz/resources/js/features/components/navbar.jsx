@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from '$/auth/AuthContext';
 import { Link } from "react-router-dom";
 import * as React from "react";
 import {
@@ -17,7 +18,7 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 const NavBar = () => {
   const [title, setTitle] = useState("MiniPl4yz");
-  const [check, setCheck] = useState(false);
+  const { isAuth, checkLogin } = useAuth();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [result, setResult] = useState({ games: [] , gamesFav: []});
@@ -30,12 +31,7 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    const CheckLogin = async () => {
-      const response = await fetch("/api/checklogin");
-      const res = await response.json();
-      setCheck(res.Auth);
-    };
-    CheckLogin();
+    checkLogin();
     fetchdata();
   }, []);
 
@@ -68,7 +64,7 @@ const NavBar = () => {
           </ListItemButton>
         </ListItem>
 
-        {check ? (
+        {isAuth ? (
           <>
             <ListItem disablePadding>
               <ListItemButton component={Link} to="/stats">
@@ -129,7 +125,7 @@ const NavBar = () => {
             className="Titulo"
             variant="h5"
             component="div"
-            sx={{ flexGrow: 1, cursor: "pointer" }}
+            sx={{ flexGrow: 1, cursor: "pointer", display: {xs:'none',sm: 'block'},}}
             onMouseEnter={() => setTitle("Juega Ya!!")}
             onMouseLeave={() => setTitle("MiniPl4yz")}
           >
@@ -142,7 +138,7 @@ const NavBar = () => {
               placeholder="Buscar juegos..."
               value={query}
               onChange={handleSearch}
-              sx={{ backgroundColor: "white", borderRadius: 1, width: 200 }}
+              sx={{ backgroundColor: "transparent", borderRadius: 2, width: 200 }}
             />
             {filteredGames.length > 0 && (
               <Paper sx={{ position: "absolute", top: 40, left: 0, zIndex: 10, width: 200 }}>

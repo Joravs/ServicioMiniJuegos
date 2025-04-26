@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import '../../../css/animations.css';
 import 'animate.css';
 import { Card, CardActionArea,CardContent, CardMedia,Typography, Grid, Box} from '@mui/material';
-import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Index = () => {
     const [result, setResult] = useState({ games: [] , gamesFav: []});
@@ -24,7 +24,7 @@ const Index = () => {
         <Grid container spacing={3}>
           {
             loading ? (
-              <VideogameAssetIcon sx={{m: 'auto', fontSize: "16rem",color: '#21BFAF',}}/>
+              <CircularProgress color='secondary' size="10rem" sx={{m: 'auto'}} />
             ) : (
               result.map((game)=>(
                 <Grid size={{xs:12,sm:8,md:6,lg:3}} key={game.id}>
@@ -43,7 +43,7 @@ const Index = () => {
                       justifyContent: 'space-between',
                     }}
                   >
-                    <CardActionArea href={`/fav/${game.nombre}`}>
+                    <CardActionArea href={`/catalog/${game.nombre}`}>
                       <CardMedia
                         component="img"
                         image={`src/${game.nombre}.png`}
