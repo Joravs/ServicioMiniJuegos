@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   const [isAuth, setIsAuth] = useState(false);
 
   const checkLogin = async () => {
-    const response = await fetch("https://minipl4yz.duckdns.org/api/checklogin");
+    const response = await fetch("/api/checklogin");
     const data = await response.json();
     setIsAuth(data.Auth);
   };

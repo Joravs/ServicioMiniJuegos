@@ -19,7 +19,7 @@ class UsuarioController extends Controller
         $user = Usuario::create($validateData);
         $cg = new StatsController;
         $cg->createFirst($user->id);
-        return response()->json(['message'=>'Usuario creado correctamente']);
+        return ['Register'=>true];
     }
 
     public function validate(Request $request)

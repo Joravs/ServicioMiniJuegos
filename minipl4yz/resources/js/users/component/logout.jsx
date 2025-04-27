@@ -8,7 +8,7 @@ export default function Logout() {
 
   useEffect(() => {
     const fecthLogout = async ()=>{
-        const response = await fetch('https://minipl4yz.duckdns.org/api/logout')
+        const response = await fetch('/api/logout')
         const logout = await response.json()
     }
     fecthLogout()

@@ -25,9 +25,9 @@ const NavBar = () => {
   const [filteredGames, setFilteredGames] = useState([]);
 
   const fetchdata = async () => {
-    const response = await fetch('https://minipl4yz.duckdns.org/api/index');
+    const response = await fetch('/api/index');
     const data = await response.json();
-    setResult(data.games.original.juegos);
+    setResult(data.games.juegos);
   };
 
   useEffect(() => {

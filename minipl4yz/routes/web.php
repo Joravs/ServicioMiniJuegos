@@ -22,7 +22,7 @@ Route::post('/api/catalog/fav/control/{idJuego}',[JuegosFavController::class, 'c
 
 
 // Create User
-Route::post('/api/registerForm',[UsuarioController::class, 'create']);
+Route::post('/api/register',[UsuarioController::class, 'create']);
 // Register Form Username
 Route::post('/api/user/check',[UsuarioController::class, 'comprobarUsername']);
 
@@ -49,5 +49,8 @@ Route::get('/api/catalog/Buscaminas',[JuegosController::class, 'accesoJuego']);
 Route::get('/api/catalog/Snake',[JuegosController::class, 'accesoJuego']);
 
 Route::get('/', function () {
+    return view('index');
+});
+Route::get('/{any}', function () {
     return view('index');
 });

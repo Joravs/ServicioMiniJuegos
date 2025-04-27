@@ -9,16 +9,16 @@ const Index = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchdata = async () => {
-      const response = await fetch('https://minipl4yz.duckdns.org/api/index');
+      const response = await fetch('/api/index');
       const data = await response.json();
-      setResult(data.games.original.juegos);
+      setResult(data.games.juegos);
       setLoading(false);
     };
     
     useEffect(() => {
         fetchdata();
     }, []);
-    
+
     return (
       <Box sx={{px:2,mx:'auto',my:3,maxWidth: { xs: '100%', sm: 540, md: 720, lg: 960, xl: 1140 }}}>
         <Grid container spacing={3}>

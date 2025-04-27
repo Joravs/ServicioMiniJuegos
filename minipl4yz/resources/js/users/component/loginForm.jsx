@@ -23,7 +23,7 @@ export default function LoginForm() {
   };
 
   const fetchUsername= async()=>{
-    const usernames = await fetch('https://minipl4yz.duckdns.org/api/user/check/',{
+    const usernames = await fetch('/api/user/check',{
         method: 'POST',
         headers: {'Content-Type': 'application/json',
             'X-CSRF-TOKEN': getToken(),},
@@ -35,7 +35,6 @@ export default function LoginForm() {
   const handleUsernameCheck= (username)=>{
     if (usernames.some(user=> user.username===username)) {
         setUsername(username)
-        console.log(username)
     }
   }
   const handlePassword = (password) =>{
@@ -43,7 +42,7 @@ export default function LoginForm() {
   }
 
   const fetchLogin = async ()=>{
-    const response = await fetch('https://minipl4yz.duckdns.org/api/loginForm',{
+    const response = await fetch('/api/loginForm',{
         method: 'POST',
         headers: {'Content-Type': 'application/json',
             'X-CSRF-TOKEN': getToken(),},

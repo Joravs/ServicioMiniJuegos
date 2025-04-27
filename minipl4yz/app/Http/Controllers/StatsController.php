@@ -16,7 +16,7 @@ class StatsController extends Controller
         $games = $games->juegos();
         foreach($games as $game){
             $stats = Stats::create(['idUsuario' => $id, 'idJuego' => $game->id]);
-          
+
             if($game->tipo=='Tiempo'){
                 $statsTime = StatsTime::create(['idUsuario' => $id, 'idJuego' => $game->id]);
             }else{
