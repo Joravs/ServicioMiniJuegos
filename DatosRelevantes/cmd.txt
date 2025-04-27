@@ -1,0 +1,11 @@
+SSL
+sudo apt update
+sudo apt install certbot python3-certbot-apache
+
+sudo certbot --apache -d minipl4yz.duckdns.org
+
+CORS
+
+https://laravel.com/docs/12.x/middleware#registering-middleware
+
+php artisan make:middleware CorsMiddleware

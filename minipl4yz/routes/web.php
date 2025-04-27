@@ -1,16 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CorsMiddleware;
+
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\JuegosController;
 use App\Http\Controllers\JuegosFavController;
 use App\Http\Controllers\AuthController;
 
+
 // Home Page
 Route::get('/api/index',[JuegosController::class, 'index']);
 
-//Search Games
-Route::get('/api/catalog/search',[JuegosController::class, 'search']);
 //Stats
 Route::get('/api/stats',[JuegosController::class, 'stats']);
 
@@ -47,5 +48,6 @@ Route::get('/api/catalog/Buscaminas',[JuegosController::class, 'accesoJuego']);
 //Snake Game
 Route::get('/api/catalog/Snake',[JuegosController::class, 'accesoJuego']);
 
-
-Route::get('/{any}',function (){return view('index');})->where('any', '.*');
+Route::get('/', function () {
+    return view('index');
+});
