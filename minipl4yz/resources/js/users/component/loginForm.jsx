@@ -6,7 +6,7 @@ import {
   IconButton, Card, Button, Typography
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import getToken from '@/hooks/getToken'
+import getCsrfToken from '@/hooks/getToken'
 
 
 export default function LoginForm() {
@@ -26,7 +26,7 @@ export default function LoginForm() {
     const usernames = await fetch('/api/user/check',{
         method: 'POST',
         headers: {'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': getToken(),},
+            'X-CSRF-TOKEN': getCsrfToken(),},
     })
     const response = await usernames.json()
     setUsernames(response.usernames)

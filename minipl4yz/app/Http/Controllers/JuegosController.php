@@ -41,7 +41,7 @@ class JuegosController extends Controller
 
     public function juegos()
     {
-        return ['juegos'=>Juegos::all()];
+        return Juegos::all();
     }
     
     public function search(Request $request)

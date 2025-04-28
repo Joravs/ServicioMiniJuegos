@@ -5,7 +5,7 @@ import * as React from "react";
 import {
   AppBar, Box, Toolbar, IconButton, Typography, Drawer,
   List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText,
-  TextField, Paper, List as MUIList, ListItem as MUIListItem
+  TextField, Paper, List as MUIList, ListItem as MUIListItem,
 } from "@mui/material";
 
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
@@ -15,6 +15,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import StarIcon from '@mui/icons-material/Star';
 
 const NavBar = () => {
   const [title, setTitle] = useState("MiniPl4yz");
@@ -27,7 +28,7 @@ const NavBar = () => {
   const fetchdata = async () => {
     const response = await fetch('/api/index');
     const data = await response.json();
-    setResult(data.games.juegos);
+    setResult(data.games);
   };
 
   useEffect(() => {
@@ -72,6 +73,14 @@ const NavBar = () => {
                   <BarChartIcon className="textos" />
                 </ListItemIcon>
                 <ListItemText className="textos" primary="Estadísticas" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton component={Link} to="/fav">
+                <ListItemIcon>
+                  <StarIcon className="textos" />
+                </ListItemIcon>
+                <ListItemText className="textos" primary="Juegos Favoritos" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -120,7 +129,9 @@ const NavBar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#514559" }}>
         <Toolbar>
-          <img src="favicon.png" alt="logo" style={{ width: 32, marginRight: 12 }} />
+          <Link to="/">
+            <img src="favicon.png" alt="logo" style={{ width: 32, marginRight: 12 }} />
+          </Link>
           <Typography
             className="Titulo"
             variant="h5"

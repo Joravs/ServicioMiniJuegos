@@ -21,7 +21,7 @@ class JuegosFavController extends Controller
             }
         }catch(\Exception $e){
         }
-        return compact('gamesfav');
+        return $gamesfav;
     }
     public function controlFav($request)
     {
@@ -29,12 +29,12 @@ class JuegosFavController extends Controller
         $idUsuario = Auth::id();
         $fav = JuegosFav::firstOrCreate(['idJuego'=>$idJuego,'idUsuario'=>$idUsuario]);
         if ($fav->wasRecentlyCreated) {
-            return false;
+            return ['result'=>false];
         } else {
             JuegosFav::where('idJuego', $idJuego)
             ->where('idUsuario', $idUsuario)
             ->delete() ;
-            return true;
+            return ['result'=>true];
         }
     }
 }

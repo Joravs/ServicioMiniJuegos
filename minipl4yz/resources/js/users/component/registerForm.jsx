@@ -5,7 +5,7 @@ import {
   IconButton, Card, Button, Typography
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import getToken from '@/hooks/getToken';
+import getCsrfToken from '@/hooks/getToken';
 
 export default function RegisterForm() {
   const [showPasswd, setShowPasswd] = useState(false);
@@ -29,7 +29,7 @@ export default function RegisterForm() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': getToken(),
+        'X-CSRF-TOKEN': getCsrfToken(),
       },
     });
     const data = await response.json();

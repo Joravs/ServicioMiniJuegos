@@ -17,8 +17,9 @@ class UsuarioController extends Controller
             'passwd' => ['required','min:8'],
         ]);
         $user = Usuario::create($validateData);
+
         $cg = new StatsController;
-        $cg->createFirst($user->id);
+        $id=$cg->createFirst($user->id);
         return ['Register'=>true];
     }
 
