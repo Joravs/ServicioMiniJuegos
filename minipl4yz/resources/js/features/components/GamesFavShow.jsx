@@ -1,110 +1,104 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, Grid, Card, CardActionArea, CardContent, CardMedia, CircularProgress } from '@mui/material';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import '../../../css/animations.css';
+import 'animate.css';
+import { Card, CardActionArea,CardContent, CardMedia,Typography, Grid, Box} from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import StarIcon from '@mui/icons-material/Star';
 import getCsrfToken from '@/hooks/getToken';
+import APP__URL from '@/hooks/variables';
 
-export default function GamesFavShow() {
-  const [favGames, setFavGames] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Index = () => {
+    const [resultFav, setResultFav] = useState({ gamesFav: []});
+    const [loading, setLoading] = useState(true);
+    let fav = 0;
 
-  useEffect(() => {
-    async function fetchFavGames() {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch('/api/catalog/fav', {
+    const fetchdata = async () => {
+      const response = await fetch(APP__URL+'/api/index');
+      const data = await response.json();
+      setResultFav(data.gamesFav)
+      setLoading(false);
+    };
+    
+    useEffect(() => {
+        fetchdata();
+    }, []);
+
+    const fetchFavControl = async(idJuego)=>{ 
+      const response = await fetch(APP__URL+'/api/catalog/fav/control/'+idJuego,{
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': getCsrfToken(),
-          },
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error!: ${response.status}`);
-        }
-        const data = await response.json();
-        setFavGames(data);
-      } catch (err) {
-        setError(err.message || 'Fallo al obtener los Favoritos');
-      } finally {
-        setLoading(false);
-      }
+          headers: {'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': getCsrfToken(),},
+      })
+      const result = await response.json()
+
+      return result
     }
 
-    fetchFavGames();
-  }, []);
+    const toggleFavorite = (game) => {
+      let result = fetchFavControl(game.id)
+      if (result)
+        setResultFav(prev => prev.filter(favGame => favGame.id !== game.id));
+    };
 
-  if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100%" p={4}>
-        <CircularProgress />
-        <Typography variant="body1" color="textSecondary" ml={2}>
-          Loading favorite games...
-        </Typography>
+      <Box sx={{px:2,mx:'auto',my:3,maxWidth: { xs: '100%', sm: 540, md: 720, lg: 960, xl: 1140 }}}>
+        <Grid container spacing={3}>
+          {
+            loading ? (
+              <CircularProgress color='secondary' size="10rem" sx={{m: 'auto'}} />
+            ) : (
+              resultFav.map((game)=>(
+                <Grid size={{xs:12,sm:8,md:6,lg:3}} key={game.id} sx={{ position: 'relative' }}>
+                  <Card
+                    id={game.nombre}
+                    className="gameCard animate__animated"
+                    sx={{
+                      backgroundColor: '#514559',
+                      color: 'white',
+                      textAlign: 'center',
+                      border: '1px solid white',
+                      maxwidth: 320,
+                      height: 320,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      position: 'relative',
+                    }}
+                  >
+                    <CardActionArea component={Link} to={`/catalog/${game.nombre}`}>
+                      <CardMedia
+                        component="img"
+                        image={`src/${game.nombre}.png`}
+                        alt={`${game.nombre} Logo`}
+                        sx={{ height: 180, objectFit: 'contain', p: 2 }}
+                      />
+                      <CardContent sx={{flexFrow: 1}}>
+                        <Typography variant="h6">{game.nombre}</Typography>
+                        <Typography variant="body2" className="d-none d-md-block">
+                          {game.info}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <Box
+                      onClick={() => toggleFavorite(game)}
+                      sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        cursor: 'pointer',
+                        color: 'yellow',
+                      }}
+                    >
+                      <StarIcon fontSize="large" />
+                    </Box>
+                  </Card>
+                </Grid>
+              ))
+            )}
+        </Grid>
       </Box>
-    );
-  }
+    );    
+};
 
-  if (error) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100%" p={4}>
-        <Typography color="error" variant="body1">{error}</Typography>
-      </Box>
-    );
-  }
-
-  if (favGames.length === 0) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100%" p={4}>
-        <Typography variant="body1" color="textSecondary">
-          Agrega Juegos para verlos aqui!
-        </Typography>
-      </Box>
-    );
-  }
-
-  return (
-    <Box sx={{ px: 2, mx: 'auto', my: 3, maxWidth: { xs: '100%', sm: 540, md: 720, lg: 960, xl: 1140 } }}>
-      <Grid container spacing={3}>
-        {favGames.map((game) => (
-          <Grid item xs={12} sm={8} md={6} lg={3} key={game.idJuego || game.id} sx={{ position: 'relative' }}>
-            <Card
-              id={game.nombreJuego || game.nombre}
-              className="gameCard"
-              sx={{
-                backgroundColor: '#514559',
-                color: 'white',
-                textAlign: 'center',
-                border: '1px solid white',
-                maxWidth: 320,
-                height: 320,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                position: 'relative',
-              }}
-            >
-              <CardActionArea href={`/catalog/${game.nombreJuego || game.nombre}`}>
-                <CardMedia
-                  component="img"
-                  image={`src/${game.nombreJuego || game.nombre}.png`}
-                  alt={`${game.nombreJuego || game.nombre} Logo`}
-                  sx={{ height: 180, objectFit: 'contain', p: 2 }}
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography variant="h6">{game.nombreJuego || game.nombre}</Typography>
-                  <Typography variant="body2" className="d-none d-md-block">
-                    {game.info || game.descripcion || 'No description available.'}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              {/* Favorite star icon could be added here if toggle functionality is implemented */}
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
-  );
-}
+export default Index;

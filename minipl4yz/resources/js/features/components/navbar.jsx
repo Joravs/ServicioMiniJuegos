@@ -16,6 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import StarIcon from '@mui/icons-material/Star';
+import APP__URL from '@/hooks/variables';
 
 const NavBar = () => {
   const [title, setTitle] = useState("MiniPl4yz");
@@ -26,7 +27,7 @@ const NavBar = () => {
   const [filteredGames, setFilteredGames] = useState([]);
 
   const fetchdata = async () => {
-    const response = await fetch('/api/index');
+    const response = await fetch(APP__URL+'/api/index');
     const data = await response.json();
     setResult(data.games);
   };

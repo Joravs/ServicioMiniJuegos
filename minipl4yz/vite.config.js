@@ -17,6 +17,7 @@ export default defineConfig({
     alias:{
       '@': '/resources/js/features',
       '$': '/resources/js/users',
+      '#': '/resources/js/games',
     }
   },
   server: {

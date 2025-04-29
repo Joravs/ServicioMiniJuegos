@@ -13,6 +13,9 @@ import Logout from '$/component/logout'
 import '../css/app.css'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 
+import Buscaminas from '#/pages/Buscaminas'
+import Snake from '#/pages/Snake'
+
 ReactDOM.createRoot(document.getElementById('root'))
 .render(
     <StrictMode>
@@ -20,14 +23,20 @@ ReactDOM.createRoot(document.getElementById('root'))
             <Router>
                 <NavBar />
                 <Routes>
-                    <Route path='/stats' element={<Stats/>}/>
-                    <Route path='/fav' element={<GamesFav/>}/>
-                    <Route path='/my-profile' element={<MyProfile/>}/>
-                    
+                    <Route path='/' element={<Index/>} />
+
+                    <Route path='/stats' element={<PrivateRoute><Stats/></PrivateRoute>}/>
+                    <Route path='/fav' element={<PrivateRoute><GamesFav/></PrivateRoute>}/>
+                    <Route path='/my-profile' element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
+
+                    {/**User */}
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/logout' element={<Logout/>}/>
                     <Route path='/register' element={<Register/>}/>
-                    <Route path='/' element={<Index/>} />
+
+                    {/**Games */}
+                    <Route path='/catalog/Buscaminas' element={<PrivateRoute><Buscaminas/></PrivateRoute>}/>
+                    <Route path='/catalog/Snake' element={<PrivateRoute><Snake/></PrivateRoute>}/>
                 </Routes>
             </Router>
         </AuthProvider>

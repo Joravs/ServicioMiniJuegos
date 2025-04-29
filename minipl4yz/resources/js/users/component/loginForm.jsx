@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import getCsrfToken from '@/hooks/getToken'
-
+import APP__URL from '@/hooks/variables';
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +23,7 @@ export default function LoginForm() {
   };
 
   const fetchUsername= async()=>{
-    const usernames = await fetch('/api/user/check',{
+    const usernames = await fetch(APP__URL+'/api/user/check',{
         method: 'POST',
         headers: {'Content-Type': 'application/json',
             'X-CSRF-TOKEN': getCsrfToken(),},
@@ -42,10 +42,10 @@ export default function LoginForm() {
   }
 
   const fetchLogin = async ()=>{
-    const response = await fetch('/api/loginForm',{
+    const response = await fetch(APP__URL+'/api/loginForm',{
         method: 'POST',
         headers: {'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': getToken(),},
+            'X-CSRF-TOKEN': getCsrfToken(),},
         body: JSON.stringify({username: username, password: password}),
     })
     const result = await response.json()
@@ -68,6 +68,7 @@ export default function LoginForm() {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Card
+        className='animate__animated animate__backInDown'
         sx={{
           p: 4,
           width: '90%',
@@ -88,19 +89,24 @@ export default function LoginForm() {
             Nombre de Usuario
           </InputLabel>
         <OutlinedInput
-            error={username && !usernames.some(user => user.username === username)}
-            helperText={
-                username && !usernames.some(user => user.username === username)
-                  ? 'Usuario no registrado'
-                  : ''
-              }
             id="username"
             type='text'
             label="Nombre de Usuario"
+            className="animate__animated animate__fadeInUp"
             sx={{
               backgroundColor: 'transparent',
             }}
             onChange={(e)=> handleUsernameCheck(e.target.value)}
+            onFocus={(e) => {
+              e.target.classList.remove('animate__pulse');
+              e.target.classList.add('animate__animated', 'animate__pulse');
+            }}
+            onAnimationEnd={(e) => {
+              e.target.classList.remove('animate__animated', 'animate__pulse');
+            }}
+            onBlur={(e) => {
+              e.target.classList.remove('animate__animated', 'animate__pulse');
+            }}
           />
         </FormControl>
         <FormControl variant="outlined" fullWidth>
@@ -110,6 +116,7 @@ export default function LoginForm() {
           <OutlinedInput
             id="password"
             type={showPassword ? 'text' : 'password'}
+            className="animate__animated animate__fadeInUp"
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -127,6 +134,16 @@ export default function LoginForm() {
               backgroundColor: 'transparent',
             }}
             onChange={(e)=>handlePassword(e.target.value)}
+            onFocus={(e) => {
+              e.target.classList.remove('animate__pulse');
+              e.target.classList.add('animate__animated', 'animate__pulse');
+            }}
+            onAnimationEnd={(e) => {
+              e.target.classList.remove('animate__animated', 'animate__pulse');
+            }}
+            onBlur={(e) => {
+              e.target.classList.remove('animate__animated', 'animate__pulse');
+            }}
           />
         </FormControl>
         <Button 

@@ -6,6 +6,7 @@ use App\Http\Middleware\CorsMiddleware;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\JuegosController;
 use App\Http\Controllers\JuegosFavController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\AuthController;
 
 
@@ -43,14 +44,18 @@ Route::get('/api/my-profile',[UsuarioController::class, 'myprofile']);
 Route::get('/api/control/create',[JuegosController::class, 'createForm']);
 //Create Game on database
 Route::post('/api/control/create',[JuegosController::class, 'updateOrCreate']);
+
 //Buscaminas Game
 Route::get('/api/catalog/Buscaminas',[JuegosController::class, 'accesoJuego']);
 //Snake Game
 Route::get('/api/catalog/Snake',[JuegosController::class, 'accesoJuego']);
+
+//Stats
+Route::post('/api/newStat',[StatsController::class, 'newStat']);
 
 Route::get('/', function () {
     return view('index');
 });
 Route::get('/{any}', function () {
     return view('index');
-});
+    })->where('any', '.*');

@@ -1,15 +1,7 @@
-import { useState,useEffect } from "react";
 import { Navigate } from 'react-router-dom';
+import { useAuth } from "$/auth/AuthContext";
 
 export default function PrivateRoute({ children }) {
-    const [check, setCheck] = useState(false);
-      useEffect(() => {
-        const CheckLogin = async () => {
-          const response = await fetch("/api/checklogin");
-          const res = await response.json();
-          setCheck(res.Auth);
-        };
-        CheckLogin();
-      }, []);
-    return check ? children : <Navigate to="/" />;
+    const {isAuth} = useAuth()
+    return isAuth ? children : <Navigate to="/" state={{ message: "Debes iniciar sesion para acceder a este contenido" }} />;
 }
