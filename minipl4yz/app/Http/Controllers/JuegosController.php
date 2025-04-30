@@ -64,14 +64,4 @@ class JuegosController extends Controller
         }
         return response()->json(['message'=>'Debes iniciar sesión para jugar a este videojuego']);
     }
-
-    public function stats()
-    {
-        $statsControl=new StatsController();
-        $statsControlPuntos = $statsControl->showStatsPoints();
-        $statsControlTime = $statsControl->showStatsTime();
-        return Auth::check()?response()->json(
-            ['points' => $statsControlPuntos, 'time' => $statsControlTime]
-        ):response()->json(['message'=>'Debes iniciar sesión para ver tus estadisticas']);
-    }
 }

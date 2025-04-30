@@ -14,7 +14,7 @@ use App\Http\Controllers\AuthController;
 Route::get('/api/index',[JuegosController::class, 'index']);
 
 //Stats
-Route::get('/api/stats',[JuegosController::class, 'stats']);
+Route::get('/api/stats',[StatsController::class, 'showStats']);
 
 //Games Fav
 Route::post('/api/catalog/fav',[JuegosFavController::class, 'showFavs']);

@@ -46,7 +46,7 @@ class StatsController extends Controller
         foreach ($users as $user) {
             $statsData[] = ['idJuego' => $idJuego, 'idUsuario' => $user->id, 'partidasJugadas' => 0];
             if ($tipo == 'Tiempo') {
-                $statsTimeData[] = ['idJuego' => $idJuego, 'idUsuario' => $user->id, 'recordTime' => '00:00'];
+                $statsTimeData[] = ['idJuego' => $idJuego, 'idUsuario' => $user->id, 'recordTime' => 1000];
             } else if ($tipo == 'Puntos') {
                 $statsPointsData[] = ['idJuego' => $idJuego, 'idUsuario' => $user->id, 'recordPoints' => 0];
             }
@@ -74,28 +74,27 @@ class StatsController extends Controller
         }
     }
 
-    public function showStatsPoints()
+    public function showStats()
     {
-        return Stats::join('statsPoints', function ($join) {
-            $join->on('stats.idJuego', '=', 'statsPoints.idJuego')
-                ->on('stats.idUsuario', '=', 'statsPoints.idUsuario');
-        })
-        ->join('juegos', 'stats.idJuego', '=', 'juegos.id')
-        ->where('stats.idUsuario', Auth::id())
-        ->orderBy('statsPoints.recordPoints', 'ASC')
-        ->get(['juegos.nombre', 'stats.partidasJugadas', 'statsPoints.recordPoints']);
-    }
-
-    public function showStatsTime()
-    {
-        return Stats::join('statsTime', function ($join) {
-            $join->on('stats.idJuego', '=', 'statsTime.idJuego')
-                ->on('stats.idUsuario', '=', 'statsTime.idUsuario');
-        })
-        ->join('juegos', 'stats.idJuego', '=', 'juegos.id')
-        ->where('stats.idUsuario', Auth::id())
-        ->orderBy('statsTime.recordTime', 'ASC')
-        ->get(['juegos.nombre', 'stats.partidasJugadas', 'statsTime.recordTime']);
+        $stats = Stats::leftJoin('statsPoints', function ($join) {
+                    $join->on('stats.idJuego', '=', 'statsPoints.idJuego')
+                            ->on('stats.idUsuario', '=', 'statsPoints.idUsuario');
+                })
+                ->leftJoin('statsTime', function ($join) {
+                    $join->on('stats.idJuego', '=', 'statsTime.idJuego')
+                            ->on('stats.idUsuario', '=', 'statsTime.idUsuario');
+                })
+                ->join('juegos', 'stats.idJuego', '=', 'juegos.id')
+                ->where('stats.idUsuario', Auth::id())
+                ->orderBy('statsPoints.recordPoints', 'ASC')
+                ->get([
+                    'juegos.nombre',
+                    'stats.partidasJugadas',
+                    'statsPoints.recordPoints',
+                    'statsTime.recordTime'
+                ]);
+    
+        return response()->json(['stats' => $stats]);
     }
 
     public function newStat(Request $request)
@@ -108,25 +107,31 @@ class StatsController extends Controller
 
         \DB::update('UPDATE stats SET partidasJugadas = partidasJugadas + 1 WHERE idJuego = ? AND idUsuario = ?', [$Juego->id, $user]);
 
-        if (!$request->lose) {
-            return response()->json(false);
+        if ($request->lose) {
+            return response()->json('nada 1');
         }
 
-        if ($Juego->tipo == 'Tiempo') {
+        if ($Juego->tipo === "Tiempo") {
             $recordTimeResult = \DB::select('SELECT recordTime FROM statsTime where idJuego = :idJuego and idUsuario = :idUsuario', ['idJuego' => $Juego->id, 'idUsuario' => $user]);
             $recordTime = count($recordTimeResult) > 0 ? $recordTimeResult[0]->recordTime : null;
             if ($recordTime === null || $request->record < $recordTime) {
-                StatsTime::updateOrCreate(['idJuego' => $Juego->id, 'idUsuario' => $user], ['recordTime' => $request->record]);
-                return response()->json(true);
+                \DB::table('statsTime')->updateOrInsert(
+                    ['idJuego' => $Juego->id, 'idUsuario' => $user],
+                    ['recordTime' => $request->record]
+                );
+                return response()->json('introducido');
             }
-        } else if ($Juego->tipo == 'Puntos') {
+        } else if ($Juego->tipo === "Puntos") {
             $recordPointsResult = \DB::select('SELECT recordPoints FROM statsPoints where idJuego = :idJuego and idUsuario = :idUsuario', ['idJuego' => $Juego->id, 'idUsuario' => $user]);
             $recordPoints = count($recordPointsResult) > 0 ? $recordPointsResult[0]->recordPoints : null;
             if ($recordPoints === null || $request->record > $recordPoints) {
-                StatsPoints::updateOrCreate(['idJuego' => $Juego->id, 'idUsuario' => $user], ['recordPoints' => $request->record]);
-                return response()->json(true);
+                \DB::table('statsPoints')->updateOrInsert(
+                    ['idJuego' => $Juego->id, 'idUsuario' => $user],
+                    ['recordPoints' => $request->record]
+                );
+                return response()->json('introducido');
             }
         }
-        return response()->json(false);
+        return response()->json($Juego);
     }
 }

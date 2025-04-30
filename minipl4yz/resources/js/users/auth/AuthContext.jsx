@@ -8,16 +8,25 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const checkLogin = async () => {
-    const response = await fetch("/api/checklogin");
-    const data = await response.json();
-    setIsAuth(data.Auth);
+    try {
+      const response = await fetch("/api/checklogin", {
+        credentials: 'include',
+      });
+      const data = await response.json();
+      setIsAuth(data.Auth);
+    } catch (e) {
+      setIsAuth(false);
+    } finally {
+      setLoading(false);
+    }
   };
-
+  
   useEffect(() => {
     checkLogin();
-  }, []);
+  }, []);  
 
   const login = () => {
     setIsAuth(true);
@@ -28,7 +37,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuth, login, logout, checkLogin }}>
+    <AuthContext.Provider value={{ isAuth,loading, login, logout, checkLogin }}>
       {children}
     </AuthContext.Provider>
   );

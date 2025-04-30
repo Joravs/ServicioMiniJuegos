@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
+import { unstable_composeClasses } from '@mui/material';
 
 const DIFICULTADES = {
   facil: { rows: 9, cols: 9, mines: 10 },
@@ -9,16 +10,14 @@ const DIFICULTADES = {
 };
 
 function crearTablero(rows, cols, minesCount) {
-  const board = Array(rows)
-    .fill(null)
-    .map(() =>
-      Array(cols).fill({
-        isMine: false,
-        isRevealed: false,
-        isFlagged: false,
-        adjacentMines: 0,
-      })
-    );
+  const board = Array(rows).fill(null).map(() =>
+    Array(cols).fill({
+      isMine: false,
+      isRevealed: false,
+      isFlagged: false,
+      adjacentMines: 0,
+    })
+  );
 
   let minesPlaced = 0;
   while (minesPlaced < minesCount) {
@@ -38,13 +37,7 @@ function crearTablero(rows, cols, minesCount) {
           for (let dj = -1; dj <= 1; dj++) {
             const ni = i + di;
             const nj = j + dj;
-            if (
-              ni >= 0 &&
-              ni < rows &&
-              nj >= 0 &&
-              nj < cols &&
-              board[ni][nj].isMine
-            ) {
+            if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && board[ni][nj].isMine) {
               count++;
             }
           }
@@ -82,6 +75,23 @@ export default function Buscaminas() {
     return () => clearInterval(timerRef.current);
   }, [gameOver, gameWon]);
 
+  const fetchStatTime = async (record, lose) => {
+    const body = { record, nombreJuego: 'Buscaminas', lose };
+    try {
+      const response = await fetch(`${APP__URL}/api/newStat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': getCsrfToken(),
+        },
+        body: JSON.stringify(body),
+      });
+      const result = await response.json();
+    } catch (error) {
+      console.error('Error al guardar estadísticas:', error);
+    }
+  };
+
   const revelarCelda = (row, col) => {
     if (gameOver || gameWon) return;
     const newBoard = board.map((r) => r.map((c) => ({ ...c })));
@@ -93,8 +103,8 @@ export default function Buscaminas() {
     if (newBoard[row][col].isMine) {
       setGameOver(true);
       clearInterval(timerRef.current);
-      fetchStatTime();
-      alert('¡Juego Terminado! Has tocado una mina.');
+      fetchStatTime(tiempoTranscurrido, true);
+      alert('💥 Juego Terminado. Tocaste una mina.');
       return;
     }
 
@@ -107,8 +117,8 @@ export default function Buscaminas() {
     if (verificarVictoria(newBoard)) {
       setGameWon(true);
       clearInterval(timerRef.current);
-      fetchStatTime();
-      alert('¡Felicidades! Has ganado!');
+      fetchStatTime(tiempoTranscurrido, false);
+      alert('🎉 ¡Ganaste!');
     }
   };
 
@@ -117,14 +127,7 @@ export default function Buscaminas() {
       for (let dc = -1; dc <= 1; dc++) {
         const nr = row + dr;
         const nc = col + dc;
-        if (
-          nr >= 0 &&
-          nr < rows &&
-          nc >= 0 &&
-          nc < cols &&
-          !board[nr][nc].isRevealed &&
-          !board[nr][nc].isMine
-        ) {
+        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !board[nr][nc].isRevealed && !board[nr][nc].isMine) {
           board[nr][nc].isRevealed = true;
           if (board[nr][nc].adjacentMines === 0) {
             revelarAdyacentes(board, nr, nc);
@@ -133,19 +136,6 @@ export default function Buscaminas() {
       }
     }
   };
-
-  const fetchStatTime = async ()=>{
-    const body = {record: tiempoTranscurrido, nombreJuego: 'Buscaminas', lose: gameOver}
-    const response = await fetch(APP__URL+'/api/newStat',{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': getCsrfToken(),},
-                body: JSON.stringify(body),
-    })
-    const result = await response.json()
-    console.log(result)
-  }
 
   const verificarVictoria = (board) => {
     for (let r = 0; r < rows; r++) {
@@ -169,6 +159,7 @@ export default function Buscaminas() {
   };
 
   const reiniciarJuego = () => {
+    clearInterval(timerRef.current);
     setBoard(crearTablero(rows, cols, mines));
     setGameOver(false);
     setGameWon(false);
@@ -177,8 +168,9 @@ export default function Buscaminas() {
 
   return (
     <div style={{ padding: 20, textAlign: 'center' }}>
-      <h2>Buscaminas</h2>
-      <div>
+      <h2 className="titulos">Buscaminas</h2>
+
+      <div className="textos">
         <label htmlFor="difficulty-select">Seleccionar Dificultad: </label>
         <select
           id="difficulty-select"
@@ -191,16 +183,20 @@ export default function Buscaminas() {
           <option value="dificil">Difícil (24x24, 99 minas)</option>
         </select>
       </div>
-      <div>Tiempo Transcurrido: {tiempoTranscurrido} segundos</div>
+
+      <div className="textos">Tiempo: {tiempoTranscurrido} s</div>
+
       <button onClick={reiniciarJuego} style={{ margin: '10px 0' }}>
         Reiniciar Juego
       </button>
+
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${cols}, 30px)`,
           justifyContent: 'center',
           gap: 2,
+          marginTop: 10,
         }}
       >
         {board.map((row, rIdx) =>
@@ -212,11 +208,7 @@ export default function Buscaminas() {
               style={{
                 width: 30,
                 height: 30,
-                backgroundColor: cell.isRevealed
-                  ? cell.isMine
-                    ? 'red'
-                    : '#ddd'
-                  : '#999',
+                backgroundColor: cell.isRevealed ? (cell.isMine ? 'red' : '#ddd') : '#999',
                 color: cell.isMine ? 'white' : 'black',
                 display: 'flex',
                 justifyContent: 'center',

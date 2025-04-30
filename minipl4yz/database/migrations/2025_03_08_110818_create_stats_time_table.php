@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('statsTime', function (Blueprint $table) {
             $table->unsignedBigInteger('idJuego');
             $table->unsignedBigInteger('idUsuario');
-            $table->integer('recordTime')->default(0);
+            $table->integer('recordTime')->default(1000);
             $table->primary(['idJuego', 'idUsuario']);
             $table->foreign('idJuego')->references('idJuego')->on('stats')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('idUsuario')->references('idUsuario')->on('stats')->onDelete('cascade')->onUpdate('cascade');
