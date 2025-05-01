@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('passwd',255);
             $table->integer('nivel')->default(0);
             $table->float('xp')->default(0);
+            $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

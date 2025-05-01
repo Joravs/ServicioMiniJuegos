@@ -17,28 +17,6 @@ class JuegosController extends Controller
             'games' => $games, 'gamesFav' => $gamesFav
         ]);
     }
-
-    public function updateOrCreate(Request $request)
-    {   
-        $actualizar = ['tipo'=>$request->tipo];
-        if($request->info!=null){
-            $actualizar['info'] = $request->info;
-        }
-        $game = Juegos::updateOrCreate(['nombreJuego'=>$request->nombreJuego],$actualizar);
-        $cg = new StatsController;
-        $cg->updateOrCreate($game->idJuego,$game->tipo);
-        return response()->json(['message'=>'Juego añadido correctamente']);
-    }
-
-    public function createForm()
-    {
-        if (Auth::check()) {
-            $user = Auth::user();
-            return $user->idUsuario == 1 ? ['Auth' => true] : ['Auth' => false];
-        }
-        return ['Auth' => false];
-    }
-
     public function juegos()
     {
         return Juegos::all();
@@ -63,5 +41,17 @@ class JuegosController extends Controller
             return ['Auth' => true];
         }
         return response()->json(['message'=>'Debes iniciar sesión para jugar a este videojuego']);
+    }
+
+    public function updateOrCreate(Request $request)
+    {   
+        $actualizar = ['tipo'=>$request->tipo];
+        if($request->info!=null){
+            $actualizar['info'] = $request->info;
+        }
+        $game = Juegos::updateOrCreate(['nombreJuego'=>$request->nombreJuego],$actualizar);
+        $cg = new StatsController;
+        $cg->updateOrCreate($game->idJuego,$game->tipo);
+        return response()->json(['message'=>'Juego añadido correctamente']);
     }
 }

@@ -18,6 +18,7 @@ export default defineConfig({
       '@': '/resources/js/features',
       '$': '/resources/js/users',
       '#': '/resources/js/games',
+      '!': '/resources/js/admin',
     }
   },
   server: {

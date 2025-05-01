@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
+    public function getUsers(){
+        if (Auth::id()===1){
+            return Usuario::all();
+        }
+        else{
+            return false;
+        }
+    }
     public function create(Request $request)
     {
         $validateData = $request->validate([
@@ -25,22 +33,14 @@ class UsuarioController extends Controller
 
     public function validate(Request $request)
     {
-        $un=Usuario::where('username', $request->username)->first();
-
-        if($un && Hash::check($request->password,$un->passwd)){
-            Auth::login($un);
-            $user = Usuario::find(Auth::id());
-            return ['auth'=>true,'id'=>$user->id,'nombre'=>$user->nombre,'username'=>$user->username,'nivel'=>$user->nivel,'xp'=>$user->xp];
+        if(Auth::attempt(['username'=>$request->username, 'password'=>$request->password])){
+            $user = Auth::user();
+            return ['auth'=>true,'id'=>$user->id,'nombre'=>$user->nombre,'username'=>$user->username,'nivel'=>$user->nivel,'xp'=>$user->xp,'avatar'=>$user->avatar];
         }else{
             return ['Auth'=>false];
         }
     }
-    public function myprofile()
-    {
-        $user = Usuario::find(Auth::id());
-
-        return ['auth'=>true,'id'=>$user->id,'nombre'=>$user->nombre,'username'=>$user->username,'nivel'=>$user->nivel,'xp'=>$user->xp];
-    }
+    
     public function comprobarUsername()
     {
         $un=Usuario::all();
@@ -53,7 +53,7 @@ class UsuarioController extends Controller
 
     public function updateExperience(Request $request)
     {
-        $user = Usuario::find(Auth::id());
+        $user = Auth::user();;
         $user->xp = $request->xp;
         $user->nivel = $request->nivel;
         $user->save();
@@ -71,5 +71,24 @@ class UsuarioController extends Controller
             return true;
         }
         return false;
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+        ]);
+        $user = Auth::user();
+
+        $path = $request->file('avatar')->store('public/avatars');
+        $filename = basename($path);
+    
+        $user->avatar = 'storage/avatars/' . $filename;
+        $user->save();
+    
+        return response()->json([
+            'success' => true,
+            'avatarUrl' => asset($user->avatar)
+        ]);
     }
 }

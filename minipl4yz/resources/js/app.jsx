@@ -1,22 +1,25 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import PrivateRoute from '$/auth/privateNavigate'
+import '../css/app.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import PrivateRoute from '$/auth/privateNavigate';
 import { AuthProvider } from '$/auth/AuthContext';
-import { UserProvider } from '$/component/levels/UserContext';
+import { UserProvider } from '$/auth/UserContext';
+import WebAdmin from '$/auth/webAdmin';
 import Index from '@/pages/index';
 import GamesFav from '@/pages/gamesFav';
-import NavBar from '@/components/navbar'
-import Login from '$/pages/login'
-import Register from '$/pages/register'
-import Stats from '$/pages/stats'
-import MyProfile from '$/pages/myProfile'
-import Logout from '$/component/logout'
-import '../css/app.css'
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import NavBar from '@/components/navbar';
+import Login from '$/pages/login';
+import Register from '$/pages/register';
+import Stats from '$/pages/stats';
+import MyProfile from '$/pages/myProfile';
+import Logout from '$/component/logout';
 
-import Buscaminas from '#/pages/Buscaminas'
-import Snake from '#/pages/Snake'
-import T2048 from '#/pages/T2048'
+import AdminIndex from '!/AdminIndex'
+import CreateGame from '!/CreateGame';
+import Buscaminas from '#/pages/Buscaminas';
+import Snake from '#/pages/Snake';
+import T2048 from '#/pages/T2048';
 
 ReactDOM.createRoot(document.getElementById('root'))
 .render(
@@ -27,12 +30,14 @@ ReactDOM.createRoot(document.getElementById('root'))
                 <NavBar />
                 <Routes>
                     <Route path='/' element={<Index/>} />
+                    {/**Admin */}
+                    <Route path='/admin' element={<WebAdmin><AdminIndex/></WebAdmin>}/>
+                    <Route path='/createGame' element={<WebAdmin><CreateGame/></WebAdmin>}/>
 
+                    {/**User */}
                     <Route path='/stats' element={<PrivateRoute><Stats/></PrivateRoute>}/>
                     <Route path='/fav' element={<PrivateRoute><GamesFav/></PrivateRoute>}/>
                     <Route path='/my-profile' element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
-
-                    {/**User */}
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/logout' element={<Logout/>}/>
                     <Route path='/register' element={<Register/>}/>

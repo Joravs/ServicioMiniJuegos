@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button, Typography, Paper } from '@mui/material';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
-import { useUser } from '$/component/levels/UserContext';
+import { useUser } from '$/auth/UserContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

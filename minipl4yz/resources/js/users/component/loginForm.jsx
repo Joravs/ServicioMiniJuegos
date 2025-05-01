@@ -8,7 +8,7 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import getCsrfToken from '@/hooks/getToken'
 import APP__URL from '@/hooks/variables';
-import { useUser } from '$/component/levels/UserContext';
+import { useUser } from '$/auth/UserContext';
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);

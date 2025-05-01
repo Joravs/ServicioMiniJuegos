@@ -17,7 +17,11 @@ class Usuario extends Authenticatable
     protected $hidden = [
         'passwd',
     ];
-
+    public function getAuthPassword()
+    {
+        return $this->passwd;
+    }
+    
     public function setPasswdAttribute($value)
     {
         $this->attributes['passwd'] = Hash::make($value);

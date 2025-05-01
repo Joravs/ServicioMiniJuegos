@@ -5,9 +5,11 @@ import {
 } from '@mui/material';
 import 'animate.css';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useUser } from './levels/UserContext';
+import { useUser } from '$/auth/UserContext';
 import getCsrfToken from '@/hooks/getToken'
 import APP__URL from '@/hooks/variables';
+import { Avatar } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ProfileView = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -18,6 +20,7 @@ const ProfileView = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const { user } = useUser();
+  const [selectedAvatar, setSelectedAvatar] = useState(user.avatar || '/uploads/avatars/default.png');
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -56,6 +59,49 @@ const ProfileView = () => {
     setSnackbarOpen(false);
   };
 
+  const handleAvatarChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    if (file.size > 2048 * 1024) {
+      setSnackbarMessage('El archivo supera el tamaño máximo permitido de 2MB.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      setSnackbarMessage('Formato no permitido. Solo se aceptan JPEG, PNG, JPG, GIF y WEBP.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('avatar', file);
+  
+    const response = await fetch(APP__URL + '/api/updateAvatar', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': getCsrfToken(),
+      },
+      body: formData,
+    });
+  
+    const result = await response.json();
+    console.log(result)
+    if (result.success) {
+      setSelectedAvatar(result.avatarUrl);
+      setSnackbarMessage('Avatar actualizado correctamente.');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+    } else {
+      setSnackbarMessage('Error al actualizar el avatar.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    }
+  };
+
   const xpPercent = Math.min((user.xp % 1000) / 1000 * 100, 100);
   const nextLevelXp = (user.xp % 1000) || 1000;
 
@@ -84,7 +130,37 @@ const ProfileView = () => {
         <Tab label="Información" />
         <Tab label="Cambiar Contraseña" />
       </Tabs>
-
+      <Box sx={{ display: 'flex', justifyContent: 'center', position: 'relative', my: 3 }}>
+        <Avatar
+          alt={user.nombre}
+          src={selectedAvatar}
+          sx={{ width: 140, height: 140, cursor: 'pointer', border: '3px solid #21BFAF' }}
+          className="animate__animated animate__fadeIn"
+          onClick={() => document.getElementById('avatar-upload-input').click()}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 10,
+            right: 'calc(50% - 70px)',
+            backgroundColor: '#21BFAF',
+            borderRadius: '50%',
+            padding: 1,
+            cursor: 'pointer',
+            '&:hover': { backgroundColor: '#1da899' },
+          }}
+          onClick={() => document.getElementById('avatar-upload-input').click()}
+        >
+          <EditIcon sx={{ color: 'black' }} />
+        </Box>
+        <input
+          type="file"
+          id="avatar-upload-input"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleAvatarChange}
+        />
+      </Box>
       <Box sx={{ mt: 4 }}>
         {tabValue === 0 && (
           <div className="animate__animated animate__fadeIn">

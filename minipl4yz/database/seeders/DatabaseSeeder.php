@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Usuario;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $admin->id=1;
         $admin->nombre='Administrador';
         $admin->username='admin';
-        $admin->passwd=bcrypt('adminGames');
+        $admin->passwd='Minipl4yz2025';
         $admin->nivel=1000;
         $admin->save();
         $this->call(GamesTableSeeder::class);

@@ -5,7 +5,7 @@ import * as React from "react";
 import {
   AppBar, Box, Toolbar, IconButton, Typography, Drawer,
   List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText,
-  TextField, Paper, List as MUIList, ListItem as MUIListItem,
+  TextField, Paper, List as MUIList, ListItem as MUIListItem
 } from "@mui/material";
 
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
@@ -17,6 +17,8 @@ import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import StarIcon from '@mui/icons-material/Star';
 import APP__URL from '@/hooks/variables';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { useUser } from '$/auth/UserContext';
 
 const NavBar = () => {
   const [title, setTitle] = useState("MiniPl4yz");
@@ -25,6 +27,7 @@ const NavBar = () => {
   const [query, setQuery] = useState("");
   const [result, setResult] = useState({ games: [] , gamesFav: []});
   const [filteredGames, setFilteredGames] = useState([]);
+  const {user}=useUser();
 
   const fetchdata = async () => {
     const response = await fetch(APP__URL+'/api/index');
@@ -92,6 +95,18 @@ const NavBar = () => {
                 <ListItemText className="textos" primary="Mi Perfil" />
               </ListItemButton>
             </ListItem>
+            <Divider/>
+            {user.id===1?
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/admin">
+                  <ListItemIcon>
+                    <AdminPanelSettingsIcon className="textos" />
+                  </ListItemIcon>
+                  <ListItemText className="textos" primary="Panel de Administrador" />
+                </ListItemButton>
+              </ListItem>
+              :''
+            }
             <ListItem disablePadding>
               <ListItemButton component={Link} to="/logout">
                 <ListItemIcon>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Button, Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
-import { useUser } from '$/component/levels/UserContext';
+import { useUser } from '$/auth/UserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
