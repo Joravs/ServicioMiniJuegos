@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, FormControl, InputLabel, OutlinedInput, InputAdornment,
-  IconButton, Card, Button, Typography
+  IconButton, Card, Button, Typography, Snackbar,Alert
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import getCsrfToken from '@/hooks/getToken';
@@ -17,9 +17,14 @@ export default function RegisterForm() {
   const [confirmPasswd, setConfirmPasswd] = useState('');
   const [usernameError, setUsernameError] = useState(false);
   const [passwdError, setPasswdError] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const navigate = useNavigate();
 
   const handleClickShowPasswd = () => setShowPasswd((show) => !show);
+
+  const handleCloseSnackbar = () => setSnackbarOpen(false);
 
   const handleMouseDownPasswd = (event) => {
     event.preventDefault();
@@ -102,7 +107,9 @@ export default function RegisterForm() {
     if (result.Register) {
       navigate('/login');
     } else {
-      console.error('Registration failed:', result.message);
+      setSnackbarMessage('Error al registrarse, vuelva a intentarlo');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
     }
   };
 
@@ -278,6 +285,20 @@ export default function RegisterForm() {
           Registrarse
         </Button>
       </Card>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
