@@ -15,6 +15,14 @@
     animation: rotateOut;
     animation-duration: 1s;
 }
+#T2048{
+    animation: slideInLeft;
+    animation-duration: 1s;
+}
+#T2048:hover img{
+    animation: wobble;
+    animation-duration: 1s;
+}
 
 .gameCard:hover{
     animation:bounce;

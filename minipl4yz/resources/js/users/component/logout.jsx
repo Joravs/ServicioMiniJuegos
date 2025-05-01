@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '$/auth/AuthContext';
+import { useUser } from './levels/UserContext';
 import APP__URL from '@/hooks/variables';
 
 export default function Logout() {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const { logoutLocal } = useUser();
 
   useEffect(() => {
-    const fecthLogout = async ()=>{
-        const response = await fetch(APP__URL+'/api/logout')
-        const logout = await response.json()
-    }
-    fecthLogout()
+    const fetchLogout = async () => await fetch(APP__URL+'/api/logout');
+    fetchLogout();
     logout();
+    logoutLocal();
     navigate('/');
   }, []);
 

@@ -2,6 +2,7 @@ import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import PrivateRoute from '$/auth/privateNavigate'
 import { AuthProvider } from '$/auth/AuthContext';
+import { UserProvider } from '$/component/levels/UserContext';
 import Index from '@/pages/index';
 import GamesFav from '@/pages/gamesFav';
 import NavBar from '@/components/navbar'
@@ -15,11 +16,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 
 import Buscaminas from '#/pages/Buscaminas'
 import Snake from '#/pages/Snake'
+import T2048 from '#/pages/T2048'
 
 ReactDOM.createRoot(document.getElementById('root'))
 .render(
     <StrictMode>
         <AuthProvider>
+            <UserProvider>
             <Router>
                 <NavBar />
                 <Routes>
@@ -37,8 +40,10 @@ ReactDOM.createRoot(document.getElementById('root'))
                     {/**Games */}
                     <Route path='/catalog/Buscaminas' element={<PrivateRoute><Buscaminas/></PrivateRoute>}/>
                     <Route path='/catalog/Snake' element={<PrivateRoute><Snake/></PrivateRoute>}/>
+                    <Route path='/catalog/T2048' element={<PrivateRoute><T2048/></PrivateRoute>}/>
                 </Routes>
             </Router>
+            </UserProvider>
         </AuthProvider>
     </StrictMode>
 )

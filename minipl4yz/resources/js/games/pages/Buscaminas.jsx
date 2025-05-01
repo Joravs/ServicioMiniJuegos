@@ -1,12 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
-import { unstable_composeClasses } from '@mui/material';
+import { Box, Grid,Button, Typography,Select,MenuItem,FormControl, InputLabel,} from '@mui/material';
+import { useUser } from '$/component/levels/UserContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const DIFICULTADES = {
   facil: { rows: 9, cols: 9, mines: 10 },
   medio: { rows: 16, cols: 16, mines: 40 },
   dificil: { rows: 24, cols: 24, mines: 99 },
+};
+
+const PUNTOS_POR_DIFICULTAD = {
+  facil: { base: 5, tiempoOptimo: 60 },
+  medio: { base: 15, tiempoOptimo: 90 },
+  dificil: { base: 30, tiempoOptimo: 120 },
 };
 
 function crearTablero(rows, cols, minesCount) {
@@ -58,13 +68,14 @@ export default function Buscaminas() {
   const [gameWon, setGameWon] = useState(false);
   const [tiempoTranscurrido, setTiempoTranscurrido] = useState(0);
   const timerRef = useRef(null);
+  const {user, addExperience} = useUser()
 
   useEffect(() => {
     setBoard(crearTablero(rows, cols, mines));
     setGameOver(false);
     setGameWon(false);
     setTiempoTranscurrido(0);
-  }, [dificultad, rows, cols, mines]);
+  }, [dificultad]);
 
   useEffect(() => {
     if (!gameOver && !gameWon) {
@@ -75,10 +86,23 @@ export default function Buscaminas() {
     return () => clearInterval(timerRef.current);
   }, [gameOver, gameWon]);
 
+  const calcularPuntajeFinal = (dificultad, tiempo) => {
+      const { base, tiempoOptimo } = PUNTOS_POR_DIFICULTAD[dificultad];
+      const t = Math.floor(Math.abs(tiempo - tiempoOptimo) / 5);
+      const modificador = tiempo <= tiempoOptimo
+        ? 1 + (t * 0.1)
+        : 1 - (t * 0.1);
+    
+      const puntos = Math.max(Math.round(base * modificador), 1);
+      return puntos;
+    };
+
   const fetchStatTime = async (record, lose) => {
     const body = { record, nombreJuego: 'Buscaminas', lose };
+    const difficulty = dificultad === 'facil' ? 1 : dificultad === 'medio' ? 2 : 3;
+    addExperience(calcularPuntajeFinal(dificultad, record), difficulty, 1);
     try {
-      const response = await fetch(`${APP__URL}/api/newStat`, {
+      await fetch(`${APP__URL}/api/newStat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +110,6 @@ export default function Buscaminas() {
         },
         body: JSON.stringify(body),
       });
-      const result = await response.json();
     } catch (error) {
       console.error('Error al guardar estadísticas:', error);
     }
@@ -167,56 +190,70 @@ export default function Buscaminas() {
   };
 
   return (
-    <div style={{ padding: 20, textAlign: 'center' }}>
-      <h2 className="titulos">Buscaminas</h2>
+    <Box p={2} textAlign="center">
+      <Typography variant="h4" gutterBottom>
+        🧨 Buscaminas
+      </Typography>
 
-      <div className="textos">
-        <label htmlFor="difficulty-select">Seleccionar Dificultad: </label>
-        <select
-          id="difficulty-select"
+      <FormControl sx={{ minWidth: 200, mb: 2 }}>
+        <InputLabel>Dificultad</InputLabel>
+        <Select
           value={dificultad}
+          label="Dificultad"
           onChange={(e) => setDificultad(e.target.value)}
-          style={{ marginBottom: 10 }}
         >
-          <option value="facil">Fácil (9x9, 10 minas)</option>
-          <option value="medio">Medio (16x16, 40 minas)</option>
-          <option value="dificil">Difícil (24x24, 99 minas)</option>
-        </select>
-      </div>
+          <MenuItem value="facil">Fácil (9x9, 10 minas)</MenuItem>
+          <MenuItem value="medio">Medio (16x16, 40 minas)</MenuItem>
+          <MenuItem value="dificil">Difícil (24x24, 99 minas)</MenuItem>
+        </Select>
+      </FormControl>
 
-      <div className="textos">Tiempo: {tiempoTranscurrido} s</div>
+      <Typography variant="h6" gutterBottom>
+        Tiempo: {tiempoTranscurrido} s
+      </Typography>
 
-      <button onClick={reiniciarJuego} style={{ margin: '10px 0' }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={reiniciarJuego}
+        sx={{ mb: 2 }}
+      >
         Reiniciar Juego
-      </button>
+      </Button>
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: 'grid',
           gridTemplateColumns: `repeat(${cols}, 30px)`,
-          justifyContent: 'center',
-          gap: 2,
-          marginTop: 10,
+          gap: '2px',
+          margin: '0 auto',
+          border: '2px solid #333',
+          p: 0.5,
+          width: 'fit-content',
         }}
       >
         {board.map((row, rIdx) =>
           row.map((cell, cIdx) => (
-            <div
+            <Box
               key={`${rIdx}-${cIdx}`}
               onClick={() => revelarCelda(rIdx, cIdx)}
               onContextMenu={(e) => alternarBandera(e, rIdx, cIdx)}
-              style={{
+              sx={{
                 width: 30,
                 height: 30,
-                backgroundColor: cell.isRevealed ? (cell.isMine ? 'red' : '#ddd') : '#999',
+                bgcolor: cell.isRevealed
+                  ? cell.isMine
+                    ? 'error.main'
+                    : 'grey.300'
+                  : 'grey.700',
                 color: cell.isMine ? 'white' : 'black',
                 display: 'flex',
-                justifyContent: 'center',
                 alignItems: 'center',
+                justifyContent: 'center',
                 fontWeight: 'bold',
-                cursor: 'pointer',
                 userSelect: 'none',
-                border: '1px solid #555',
+                cursor: 'pointer',
+                border: '1px solid #444',
               }}
             >
               {cell.isRevealed && !cell.isMine && cell.adjacentMines > 0
@@ -224,10 +261,17 @@ export default function Buscaminas() {
                 : cell.isFlagged
                 ? '🚩'
                 : ''}
-            </div>
+            </Box>
           ))
         )}
-      </div>
-    </div>
+      </Box>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        closeOnClick
+        pauseOnHover
+      />
+    </Box>
   );
 }

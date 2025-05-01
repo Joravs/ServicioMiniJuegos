@@ -11,15 +11,23 @@
 
     Puntuaje ejemplos
         Tiempo
-            facil, acabar la partida en 2 min otorge 5 puntos
-            medio, acabar la partida en 3 min otorge 15 puntos
-            dificil, acabar la partida en 3 min otorge 30 puntos
+            facil, acabar la partida en 60sec otorge 5 puntos
+            medio, acabar la partida en 90sec otorge 15 puntos
+            dificil, acabar la partida en 120sec otorge 30 puntos
+            En el caso del buscaminas mientras menor sea el tiempo y dependiendo de la dificultad,aumente el puntuaje por cada 5s
+            Y si se pasan del tiempo minimo establecido, de menos puntos
+            y(+/-)y*(t*10/100)
+            T es la cantidad de 5s que han pasado , ejemplo 5s = 1, 10s = 2
+            X el puntuaje correspondiente.
+        Puntos
+            lento, acabar la partida en 2 min otorge 5 puntos
+            normal, acabar la partida en 3 min otorge 15 puntos
+            rapido, acabar la partida en 3 min otorge 30 puntos
             En el caso del buscaminas mientras menor sea el tiempo y dependiendo de la dificultad,aumente el puntuaje por cada 15s
             Y si se pasan del tiempo minimo establecido, de menos puntos
             y(+/-)y*(t*10/100)
             T es la cantidad de 15s que han pasado , ejemplo 15s = 1, 30s = 2
             X el puntuaje correspondiente.
-        Puntos
             
 ###Juegos
     Hay que programar los juegos o buscarlos y y encontrar los parametros necesarios para guardar las estadisticas

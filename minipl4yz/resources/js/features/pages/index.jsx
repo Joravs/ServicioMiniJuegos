@@ -9,7 +9,6 @@ import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
 import { useAuth } from '$/auth/AuthContext';
 
-
 const Index = () => {
   const [result, setResult] = useState({ games: [] });
   const [resultFav, setResultFav] = useState({ gamesFav: [] });
@@ -34,7 +33,7 @@ const Index = () => {
   useEffect(() => {
     if (location.state && location.state.message) {
       setMessage(location.state.message);
-      // Clear the message from history state to avoid showing it again on back/forward navigation
+
       window.history.replaceState({}, document.title);
     }
   }, [location]);
@@ -56,7 +55,6 @@ const Index = () => {
     return result;
   };
 
-  // Toggle favorite status of a game
   const toggleFavorite = (game) => {
     if (isFavorite(game)) {
       let result = fetchFavControl(game.id);

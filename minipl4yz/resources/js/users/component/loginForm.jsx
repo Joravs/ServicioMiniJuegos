@@ -3,20 +3,27 @@ import {useNavigate} from 'react-router-dom'
 import { useAuth } from '$/auth/AuthContext';
 import {
   Box, FormControl, InputLabel, OutlinedInput, InputAdornment,
-  IconButton, Card, Button, Typography
+  IconButton, Card, Button, Typography, Snackbar, Alert
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import getCsrfToken from '@/hooks/getToken'
 import APP__URL from '@/hooks/variables';
+import { useUser } from '$/component/levels/UserContext';
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [username,setUsername] = useState('')
   const [usernames,setUsernames] = useState([])
   const [password,setPassword] = useState('')
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const { login } = useAuth()
+  const { setUserData } = useUser();
   const navigate = useNavigate()
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleCloseSnackbar = () => setSnackbarOpen(false);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -49,16 +56,19 @@ export default function LoginForm() {
         body: JSON.stringify({username: username, password: password}),
     })
     const result = await response.json()
-    return result.Auth
+    return result
   }
   const handleFormSubmit = async (event)=>{
     event.preventDefault();
     let auth = await fetchLogin();
-    if (auth){
+    if (auth.auth){
+        setUserData(auth);
         login();
         navigate('/')
     }else{
-        console.log("Ha ocurrido un problema")
+      setSnackbarMessage('Usuario o Contraseña Incorrectos');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
     }
   }
 
@@ -154,6 +164,20 @@ export default function LoginForm() {
           Iniciar Sesión
         </Button>
       </Card>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

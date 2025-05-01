@@ -11,11 +11,13 @@ class GamesTableSeeder extends Seeder
 {
     private $games = [
         ['nombreJuego'=>'Buscaminas',
-        'info'=>'Busca y evita las minas',
-        'El videojuego presenta una cuadrícula de casillas en las que se puede hacer clic, donde hay «minas» ocultas esparcidas por todo el tablero. El objetivo es limpiar el tablero sin detonar ninguna mina, con la ayuda de pistas sobre el número de minas vecinas en las casillas circundantes',
+        'info'=>'Busca y evita las minas. El objetivo es limpiar el tablero sin detonar ninguna mina, con la ayuda de pistas sobre el número de minas vecinas en las casillas circundantes',
         'tipo'=>'Tiempo'],
         ['nombreJuego'=>'Snake',
         'info'=>'El jugador debe evitar que la serpeinte choque contra obstáculos o se coma a sí misma, algo que se vuelve más difícil a medida que la serpiente se alarga.',
+        'tipo'=>'Puntos'],
+        ['id'=>2048,'nombreJuego'=>'T2048',
+        'info'=>'El objetivo es deslizar baldosas en una cuadrícula para combinarlas y crear una baldosa con el número 2048',
         'tipo'=>'Puntos'],
     ];
     public function run(): void

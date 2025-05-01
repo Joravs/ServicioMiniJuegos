@@ -33,8 +33,11 @@ Route::get('/api/checklogin',[AuthController::class, 'checkLogin']);
 Route::post('/api/loginForm',[UsuarioController::class, 'validate']);
 // Logout
 Route::get('/api/logout',[AuthController::class, 'logout']);
-//My Profile
-Route::get('/api/my-profile',[UsuarioController::class, 'myprofile']);
+//Experiencia
+Route::post('/api/experience',[UsuarioController::class, 'updateExperience']);
+//Cambiar Contraseña
+Route::post('/api/handlePassword',[UsuarioController::class, 'handlePassword']);
+
 
 ###################################################################
 ########################### Juegos ################################

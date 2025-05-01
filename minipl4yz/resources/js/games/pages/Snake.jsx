@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Button, Typography, Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Button, Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
+import { useUser } from '$/component/levels/UserContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const DIRECTIONS = {
   ArrowUp: { x: 0, y: -1 },
@@ -26,8 +30,13 @@ export default function Snake() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [speed, setSpeed] = useState('normal');
+  const {addExperience} = useUser()
+
   const moveRef = useRef(direction);
   moveRef.current = direction;
+
+  const foodRef = useRef(food);
+  foodRef.current = food;
 
   const placeFood = useCallback((snakePositions) => {
     let newFood;
@@ -40,76 +49,81 @@ export default function Snake() {
     setFood(newFood);
   }, []);
 
+  const isCollision = (head, snakePositions) =>
+    head.x < 0 || head.x >= BOARD_SIZE ||
+    head.y < 0 || head.y >= BOARD_SIZE ||
+    snakePositions.some(segment => segment.x === head.x && segment.y === head.y);
+
+  const moveSnake = () => {
+    setSnake(prevSnake => {
+      const head = prevSnake[0];
+      const newHead = {
+        x: head.x + moveRef.current.x,
+        y: head.y + moveRef.current.y
+      };
+
+      if (isCollision(newHead, prevSnake)) {
+        setGameOver(true);
+        return prevSnake;
+      }
+
+      const newSnake = [newHead, ...prevSnake];
+      if (newHead.x === foodRef.current.x && newHead.y === foodRef.current.y) {
+        setScore(prev => prev + 1);
+        placeFood(newSnake);
+      } else {
+        newSnake.pop();
+      }
+
+      return newSnake;
+    });
+  };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       const newDirection = DIRECTIONS[e.key];
       if (newDirection) {
-
+        e.preventDefault();
         const lastDirection = moveRef.current;
-        if (
-          (newDirection.x !== -lastDirection.x || newDirection.y !== -lastDirection.y)
-        ) {
+        if (newDirection.x !== -lastDirection.x || newDirection.y !== -lastDirection.y) {
           setDirection(newDirection);
         }
       }
     };
+  
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
-
+  
 
   useEffect(() => {
     if (gameOver) return;
 
-    const interval = setInterval(() => {
-      setSnake(prevSnake => {
-        const head = prevSnake[0];
-        const newHead = { x: head.x + moveRef.current.x, y: head.y + moveRef.current.y };
-
-        if (
-          newHead.x < 0 || newHead.x >= BOARD_SIZE ||
-          newHead.y < 0 || newHead.y >= BOARD_SIZE
-        ) {
-          setGameOver(true);
-          fetchStatPoints(score);
-          return prevSnake;
-        }
-
-        if (prevSnake.some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
-          setGameOver(true);
-          fetchStatPoints(score);
-          return prevSnake;
-        }
-
-        let newSnake = [newHead, ...prevSnake];
-
-        if (newHead.x === food.x && newHead.y === food.y) {
-          setScore(prevScore => prevScore + 1);
-          placeFood(newSnake);
-        } else {
-          newSnake.pop();
-        }
-
-        return newSnake;
-      });
-    }, SPEEDS[speed]);
-
+    const interval = setInterval(moveSnake, SPEEDS[speed]);
     return () => clearInterval(interval);
-  }, [food, gameOver, speed, score, placeFood]);
+  }, [gameOver, speed]);
 
-  
+  useEffect(() => {
+    if (gameOver) {
+      fetchStatPoints(score);
+    }
+  }, [gameOver]);
+
   const fetchStatPoints = async (finalScore) => {
     try {
-      const body = {record: finalScore, nombreJuego: 'Snake', lose: false}
-      const response = await fetch(APP__URL+'/api/newStat',{
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'X-CSRF-TOKEN': getCsrfToken(),},
-                  body: JSON.stringify(body),
-      })
-      const data = await response.json();
+      addExperience(finalScore,1,speed);
+      
+      const body = { record: finalScore, nombreJuego: 'Snake', lose: false };
+      await fetch(APP__URL + '/api/newStat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': getCsrfToken(),
+        },
+        body: JSON.stringify(body),
+      });
     } catch (error) {
+      console.error("Error al enviar los puntos", error);
     }
   };
 
@@ -129,9 +143,7 @@ export default function Snake() {
         <InputLabel id="speed-select-label">Velocidad</InputLabel>
         <Select
           labelId="speed-select-label"
-          id="speed-select"
           value={speed}
-          label="Velocidad"
           onChange={(e) => setSpeed(e.target.value)}
           disabled={gameOver}
         >
@@ -198,6 +210,13 @@ export default function Snake() {
           Usa las <strong>flechas del teclado</strong> para mover la serpiente. Come la comida roja para crecer.
         </div>
       )}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        closeOnClick
+        pauseOnHover
+      />
     </Box>
   );
 }
