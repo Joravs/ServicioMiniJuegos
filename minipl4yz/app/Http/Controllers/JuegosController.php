@@ -54,4 +54,41 @@ class JuegosController extends Controller
         $cg->updateOrCreate($game->idJuego,$game->tipo);
         return response()->json(['message'=>'Juego añadido correctamente']);
     }
+
+    public function updateGame(Request $request)
+    {
+        $game = Juegos::where('id',$request->id)->first();
+
+        $request->validate([
+            'nombre' => 'nullable|string|max:255',
+            'tipo' => 'nullable|in:Tiempo,Puntos',
+            'info' => 'nullable|string',
+        ]);
+
+        $game->update($request->only(['nombre', 'tipo', 'info']));
+
+        return response()->json([
+            'success' => true,
+            'game' => $game,
+        ]);
+    }
+
+    public function deleteGame($id)
+    {
+        $game = Juegos::where('id',$id)->first();
+
+        if (!$game) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Juego no encontrado.'
+            ], 404);
+        }
+
+        $game->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Juego eliminado correctamente.'
+        ]);
+    }
 }

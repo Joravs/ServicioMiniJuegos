@@ -39,6 +39,9 @@ Route::post('/api/handlePassword',[UsuarioController::class, 'handlePassword']);
 //Actualizar Avatar
 Route::post('/api/updateAvatar',[UsuarioController::class, 'updateAvatar']);
 
+Route::put('/api/updateUser',[UsuarioController::class, 'updateUser']);
+Route::delete('/api/deleteUser/{id}',[UsuarioController::class, 'deleteUser']);
+
 
 ###################################################################
 ########################### Juegos ################################
@@ -51,6 +54,14 @@ Route::post('/api/control/create',[JuegosController::class, 'updateOrCreate']);
 Route::get('/api/catalog/Buscaminas',[JuegosController::class, 'accesoJuego']);
 //Snake Game
 Route::get('/api/catalog/Snake',[JuegosController::class, 'accesoJuego']);
+//T2048
+Route::get('/api/catalog/T2048',[JuegosController::class, 'accesoJuego']);
+
+Route::put('/api/updateGame',[JuegosController::class, 'updateGame']);
+
+Route::delete('/api/deleteGame/{id}',[JuegosController::class, 'deleteGame']);
+
+
 
 //Stats
 Route::post('/api/newStat',[StatsController::class, 'newStat']);

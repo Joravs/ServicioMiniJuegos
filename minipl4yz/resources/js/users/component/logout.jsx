@@ -10,8 +10,7 @@ export default function Logout() {
   const { logoutLocal } = useUser();
 
   useEffect(() => {
-    const fetchLogout = async () => await fetch(APP__URL+'/api/logout');
-    fetchLogout();
+    fetch(APP__URL+'/api/logout');
     logout();
     logoutLocal();
     navigate('/');

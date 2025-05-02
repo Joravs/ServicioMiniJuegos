@@ -17,6 +17,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import StarIcon from '@mui/icons-material/Star';
 import APP__URL from '@/hooks/variables';
+import apiFetch from '@/hooks/apiFetch';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { useUser } from '$/auth/UserContext';
 
@@ -29,15 +30,17 @@ const NavBar = () => {
   const [filteredGames, setFilteredGames] = useState([]);
   const {user}=useUser();
 
-  const fetchdata = async () => {
-    const response = await fetch(APP__URL+'/api/index');
-    const data = await response.json();
-    setResult(data.games);
+  const fetchData = async () => {
+      const data = await apiFetch(APP__URL + '/api/index');
+      if(data){
+        setLoading(false);
+        setResult(data.games);
+      }
   };
 
   useEffect(() => {
     checkLogin();
-    fetchdata();
+    fetchData();
   }, []);
 
   const toggleDrawer = (newOpen) => () => {

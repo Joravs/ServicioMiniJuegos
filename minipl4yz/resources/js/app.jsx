@@ -16,7 +16,8 @@ import MyProfile from '$/pages/myProfile';
 import Logout from '$/component/logout';
 
 import AdminIndex from '!/AdminIndex'
-import CreateGame from '!/CreateGame';
+
+
 import Buscaminas from '#/pages/Buscaminas';
 import Snake from '#/pages/Snake';
 import T2048 from '#/pages/T2048';
@@ -32,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root'))
                     <Route path='/' element={<Index/>} />
                     {/**Admin */}
                     <Route path='/admin' element={<WebAdmin><AdminIndex/></WebAdmin>}/>
-                    <Route path='/createGame' element={<WebAdmin><CreateGame/></WebAdmin>}/>
+
 
                     {/**User */}
                     <Route path='/stats' element={<PrivateRoute><Stats/></PrivateRoute>}/>

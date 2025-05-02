@@ -7,33 +7,35 @@ import CircularProgress from '@mui/material/CircularProgress';
 import StarIcon from '@mui/icons-material/Star';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
+import apiFetch from '@/hooks/apiFetch';
 
 const Index = () => {
     const [resultFav, setResultFav] = useState({ gamesFav: []});
     const [loading, setLoading] = useState(true);
     let fav = 0;
 
-    const fetchdata = async () => {
-      const response = await fetch(APP__URL+'/api/index');
-      const data = await response.json();
-      setResultFav(data.gamesFav)
-      setLoading(false);
+    const fetchData = async () => {
+      const data = await apiFetch(APP__URL + '/api/index');
+      if(data){
+        setResultFav(data.gamesFav);
+        setLoading(false);
+      }
     };
     
     useEffect(() => {
-        fetchdata();
+      fetchData();
     }, []);
-
-    const fetchFavControl = async(idJuego)=>{ 
-      const response = await fetch(APP__URL+'/api/catalog/fav/control/'+idJuego,{
-          method: 'POST',
-          headers: {'Content-Type': 'application/json',
-              'X-CSRF-TOKEN': getCsrfToken(),},
-      })
-      const result = await response.json()
-
-      return result
-    }
+    
+    const fetchFavControl = async (idJuego) => {
+      const result = await apiFetch(APP__URL + '/api/catalog/fav/control/' + idJuego, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': getCsrfToken(),
+        },
+      });;
+      return result;
+    };    
 
     const toggleFavorite = (game) => {
       let result = fetchFavControl(game.id)

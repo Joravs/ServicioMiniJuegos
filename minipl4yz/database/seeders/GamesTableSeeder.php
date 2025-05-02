@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\DB;
 class GamesTableSeeder extends Seeder
 {
     private $games = [
-        ['nombreJuego'=>'Buscaminas',
+        ['id'=>1,'nombreJuego'=>'Buscaminas',
         'info'=>'Busca y evita las minas. El objetivo es limpiar el tablero sin detonar ninguna mina, con la ayuda de pistas sobre el número de minas vecinas en las casillas circundantes',
         'tipo'=>'Tiempo'],
-        ['nombreJuego'=>'Snake',
+        ['id'=>2,'nombreJuego'=>'Snake',
         'info'=>'El jugador debe evitar que la serpeinte choque contra obstáculos o se coma a sí misma, algo que se vuelve más difícil a medida que la serpiente se alarga.',
         'tipo'=>'Puntos'],
         ['id'=>2048,'nombreJuego'=>'T2048',
@@ -29,6 +29,7 @@ class GamesTableSeeder extends Seeder
         DB::table('juegos')->delete();
         foreach ($this->games as $game) {
             $insGame=new Juegos;
+            $insGame->id=$game['id'];
             $insGame->nombre=$game['nombreJuego'];
             $insGame->info=$game['info'];
             $insGame->tipo=$game['tipo'];

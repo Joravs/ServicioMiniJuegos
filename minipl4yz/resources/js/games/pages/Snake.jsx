@@ -109,22 +109,20 @@ export default function Snake() {
     }
   }, [gameOver]);
 
-  const fetchStatPoints = async (finalScore) => {
-    try {
+  const fetchStatPoints = (finalScore) => {
+
       addExperience(finalScore,1,speed);
       
       const body = { record: finalScore, nombreJuego: 'Snake', lose: false };
-      await fetch(APP__URL + '/api/newStat', {
+      fetch(APP__URL + '/api/newStat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRF-TOKEN': getCsrfToken(),
         },
         body: JSON.stringify(body),
-      });
-    } catch (error) {
-      console.error("Error al enviar los puntos", error);
-    }
+      })
+      .catch((error)=>console.error("Error al enviar los puntos", error));
   };
 
   const restartGame = () => {

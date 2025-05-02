@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Typography, Card, CardMedia, CardContent, CircularProgress, Fade } from "@mui/material";
 import APP__URL from '@/hooks/variables';
+import apiFetch from '@/hooks/apiFetch';
 import 'animate.css';
 
 export default function StatsView() {
@@ -10,19 +11,21 @@ export default function StatsView() {
   const [selectedGame, setSelectedGame] = useState(null);
 
   const fetchStats = async () => {
-    const response = await fetch(APP__URL + '/api/stats', {
+    const data = await apiFetch(APP__URL + '/api/stats', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
-    const data = await response.json();
-    setStats(data.stats);
+    if (data) {
+      setStats(data.stats);
+    }
   };
-
+  
   const fetchGames = async () => {
-    const response = await fetch(APP__URL + '/api/index');
-    const data = await response.json();
-    setGames(data.games);
+    const data = await apiFetch(APP__URL + '/api/index');
+    if (data) {
+      setGames(data.games);
+    }
     setLoading(false);
   };
 

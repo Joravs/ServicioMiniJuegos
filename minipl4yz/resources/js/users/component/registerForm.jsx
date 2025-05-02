@@ -7,6 +7,7 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
+import apiFetch from '@/hooks/apiFetch';
 
 export default function RegisterForm() {
   const [showPasswd, setShowPasswd] = useState(false);
@@ -31,15 +32,16 @@ export default function RegisterForm() {
   };
 
   const fetchUsernames = async () => {
-    const response = await fetch(APP__URL+'/api/user/check', {
+    const data = await apiFetch(APP__URL + '/api/user/check', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': getCsrfToken(),
       },
     });
-    const data = await response.json();
-    setUsernames(data.usernames);
+    if(data){
+      setUsernames(data.usernames);
+    }
   };
 
   const handleNombreChange = (e) => {
@@ -91,7 +93,8 @@ export default function RegisterForm() {
     if (usernameError || passwdError) {
       return;
     }
-    const response = await fetch(APP__URL+'/api/register', {
+
+    const result = await apiFetch(APP__URL + '/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -103,7 +106,6 @@ export default function RegisterForm() {
         passwd,
       }),
     });
-    const result = await response.json();
     if (result.Register) {
       navigate('/login');
     } else {

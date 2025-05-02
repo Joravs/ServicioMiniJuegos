@@ -27,7 +27,7 @@ export const UserProvider = ({ children }) => {
     const updatedUser = { ...user, xp: newXp, nivel: newLevel };
     setUser(updatedUser);
     localStorage.setItem('user', JSON.stringify(updatedUser));
-    await fetch(`${APP__URL}/api/experience`, {
+    fetch(`${APP__URL}/api/experience`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,6 +35,7 @@ export const UserProvider = ({ children }) => {
       },
       body: JSON.stringify({xp: user.xp, nivel: user.nivel}),
     })
+    .catch((error)=>console.log(error))
   };
 
   const setUserData = (data) => {

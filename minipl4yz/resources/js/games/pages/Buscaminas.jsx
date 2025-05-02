@@ -97,22 +97,21 @@ export default function Buscaminas() {
       return puntos;
     };
 
-  const fetchStatTime = async (record, lose) => {
+  const fetchStatTime = (record, lose) => {
     const body = { record, nombreJuego: 'Buscaminas', lose };
     const difficulty = dificultad === 'facil' ? 1 : dificultad === 'medio' ? 2 : 3;
     addExperience(calcularPuntajeFinal(dificultad, record), difficulty, 1);
-    try {
-      await fetch(`${APP__URL}/api/newStat`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': getCsrfToken(),
-        },
-        body: JSON.stringify(body),
-      });
-    } catch (error) {
-      console.error('Error al guardar estadísticas:', error);
-    }
+    
+    fetch(`${APP__URL}/api/newStat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': getCsrfToken(),
+      },
+      body: JSON.stringify(body),
+    })
+    .catch((error)=>console.error("Error al enviar los puntos", error));
+
   };
 
   const revelarCelda = (row, col) => {

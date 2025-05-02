@@ -8,4 +8,8 @@ class JuegosFav extends Model
 {
     protected $table = 'juegosFav';
     protected $fillable=['idJuego','idUsuario'];
+    
+    public $incrementing = false;
+    protected $primaryKey = null;
+    public $timestamps = true;
 }

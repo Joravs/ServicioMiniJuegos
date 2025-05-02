@@ -37,20 +37,17 @@ const T2048 = () => {
   const [gameOver, setGameOver] = useState(false);
   const { addExperience } = useUser();
 
-  const fetchStatPoints = async (finalScore) => {
-    try {  
-      const body = { record: finalScore, nombreJuego: 'T2048', lose: false };
-      await fetch(APP__URL + '/api/newStat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': getCsrfToken(),
-        },
-        body: JSON.stringify(body),
-      });
-    } catch (error) {
-      console.error("Error al enviar los puntos", error);
-    }
+  const fetchStatPoints = (finalScore) => {
+    const body = { record: finalScore, nombreJuego: 'T2048', lose: false };
+    fetch(APP__URL + '/api/newStat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': getCsrfToken(),
+      },
+      body: JSON.stringify(body),
+    })
+    .catch((error)=>console.error("Error al enviar los puntos", error));
   };
 
   const restartGame = () => {

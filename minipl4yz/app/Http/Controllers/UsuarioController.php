@@ -80,7 +80,7 @@ class UsuarioController extends Controller
         ]);
         $user = Auth::user();
 
-        $path = $request->file('avatar')->store('public/avatars');
+        $path = $request->file('avatar')->store('avatars','public');
         $filename = basename($path);
     
         $user->avatar = 'storage/avatars/' . $filename;
@@ -89,6 +89,43 @@ class UsuarioController extends Controller
         return response()->json([
             'success' => true,
             'avatarUrl' => asset($user->avatar)
+        ]);
+    }
+    public function updateUser(Request $request)
+    {
+        $user = Usuario::where('id', $request->id)->first();
+
+        $request->validate([
+            'nombre' => 'nullable|string|max:255',
+            'nivel' => 'nullable|integer',
+            'xp' => 'nullable|integer',
+            'avatar' => 'nullable|string',
+        ]);
+
+        $user->update($request->only(['nombre', 'nivel', 'xp', 'avatar']));
+
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+        ]);
+    }
+
+    public function deleteUser($id)
+    {
+        $user = Usuario::where('id', $id)->first();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario no encontrado.'
+            ], 404);
+        }
+
+        $user->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario eliminado correctamente.'
         ]);
     }
 }

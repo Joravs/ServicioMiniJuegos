@@ -7,6 +7,7 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import StarIcon from '@mui/icons-material/Star';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
+import apiFetch from '@/hooks/apiFetch';
 import { useAuth } from '$/auth/AuthContext';
 
 const Index = () => {
@@ -18,16 +19,17 @@ const Index = () => {
   const [message, setMessage] = useState('');
   let fav = 0;
 
-  const fetchdata = async () => {
-    const response = await fetch(APP__URL + '/api/index');
-    const data = await response.json();
-    setResult(data.games);
-    setResultFav(data.gamesFav);
-    setLoading(false);
-  };
+  const fetchData = async () => {
+      const data = await apiFetch(APP__URL + '/api/index');
+      if(data){
+        setResult(data.games);
+        setResultFav(data.gamesFav);
+        setLoading(false);
+      }
+  };  
 
   useEffect(() => {
-    fetchdata();
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -42,30 +44,25 @@ const Index = () => {
     return resultFav.some(favGame => favGame.id === game.id);
   };
 
-  const fetchFavControl = async (idJuego) => {
-    const response = await fetch(APP__URL + '/api/catalog/fav/control/' + idJuego, {
+  const toggleFavorite = async (game) => {  
+    const result = await apiFetch(APP__URL + '/api/catalog/fav/control/' + game.id, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': getCsrfToken(),
       },
     });
-    const result = await response.json();
 
-    return result;
-  };
-
-  const toggleFavorite = (game) => {
     if (isFavorite(game)) {
-      let result = fetchFavControl(game.id);
-      if (result)
+      if (result) {
         setResultFav(prev => prev.filter(favGame => favGame.id !== game.id));
+      }
     } else {
-      let result = fetchFavControl(game.id);
-      if (result)
+      if (result) {
         setResultFav(prev => [...prev, game]);
+      }
     }
-  };
+  };  
 
   return (
     <Box sx={{ px: 2, mx: 'auto', my: 3, maxWidth: { xs: '100%', sm: 540, md: 720, lg: 960, xl: 1140 } }}>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Usuario extends Authenticatable
 {
+    protected $primaryKey = 'id';
     protected $fillable = [
         'nombre',
         'username',

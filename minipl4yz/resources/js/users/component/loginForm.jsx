@@ -8,6 +8,7 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import getCsrfToken from '@/hooks/getToken'
 import APP__URL from '@/hooks/variables';
+import apiFetch from '@/hooks/apiFetch';
 import { useUser } from '$/auth/UserContext';
 
 export default function LoginForm() {
@@ -29,15 +30,19 @@ export default function LoginForm() {
     event.preventDefault();
   };
 
-  const fetchUsername= async()=>{
-    const usernames = await fetch(APP__URL+'/api/user/check',{
-        method: 'POST',
-        headers: {'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': getCsrfToken(),},
-    })
-    const response = await usernames.json()
-    setUsernames(response.usernames)
-  }
+  const fetchUsername = async () => {
+    const data = await apiFetch(APP__URL + '/api/user/check', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': getCsrfToken(),
+      },
+    });
+    if(data){
+      setUsernames(data.usernames);
+    }
+  };
+  
 
   const handleUsernameCheck= (username)=>{
     if (usernames.some(user=> user.username===username)) {
@@ -48,29 +53,29 @@ export default function LoginForm() {
     setPassword(password)
   }
 
-  const fetchLogin = async ()=>{
-    const response = await fetch(APP__URL+'/api/loginForm',{
-        method: 'POST',
-        headers: {'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': getCsrfToken(),},
-        body: JSON.stringify({username: username, password: password}),
-    })
-    const result = await response.json()
-    return result
-  }
-  const handleFormSubmit = async (event)=>{
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let auth = await fetchLogin();
-    if (auth.auth){
-        setUserData(auth);
-        login();
-        navigate('/')
-    }else{
+
+    const auth = await apiFetch(APP__URL + '/api/loginForm', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': getCsrfToken(),
+      },
+      body: JSON.stringify({ username, password }),
+    });;
+
+    if (auth.auth) {
+      setUserData(auth);
+      login();
+      navigate('/');
+    } else {
       setSnackbarMessage('Usuario o Contraseña Incorrectos');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }
-  }
+  };
+  
 
   useEffect(()=>{
     fetchUsername()

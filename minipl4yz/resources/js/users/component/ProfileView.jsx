@@ -8,6 +8,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useUser } from '$/auth/UserContext';
 import getCsrfToken from '@/hooks/getToken'
 import APP__URL from '@/hooks/variables';
+import apiFetch from '@/hooks/apiFetch';
 import { Avatar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -32,7 +33,7 @@ const ProfileView = () => {
   };
 
   const handleChangePassword = async () => {
-    const response = await fetch(APP__URL + '/api/handlePassword', {
+    const result = await apiFetch(APP__URL + '/api/handlePassword', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +42,6 @@ const ProfileView = () => {
       body: JSON.stringify({ currentPassword, newPassword }),
     });
 
-    const result = await response.json();
     if (result) {
       setSnackbarMessage('Contraseña actualizada correctamente.');
       setSnackbarSeverity('success');
@@ -69,6 +69,7 @@ const ProfileView = () => {
       setSnackbarOpen(true);
       return;
     }
+  
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
       setSnackbarMessage('Formato no permitido. Solo se aceptan JPEG, PNG, JPG, GIF y WEBP.');
@@ -80,16 +81,14 @@ const ProfileView = () => {
     const formData = new FormData();
     formData.append('avatar', file);
   
-    const response = await fetch(APP__URL + '/api/updateAvatar', {
+    const result = await apiFetch(APP__URL + '/api/updateAvatar', {
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': getCsrfToken(),
       },
       body: formData,
     });
-  
-    const result = await response.json();
-    console.log(result)
+
     if (result.success) {
       setSelectedAvatar(result.avatarUrl);
       setSnackbarMessage('Avatar actualizado correctamente.');
@@ -100,7 +99,7 @@ const ProfileView = () => {
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }
-  };
+  };  
 
   const xpPercent = Math.min((user.xp % 1000) / 1000 * 100, 100);
   const nextLevelXp = (user.xp % 1000) || 1000;
