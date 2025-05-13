@@ -30,7 +30,7 @@ const addRandomTile = (board) => {
 
 const cloneBoard = (board) => board.map(row => [...row]);
 
-const T2048 = () => {
+const G2048 = () => {
   const boardRef = useRef(null);
   const [board, setBoard] = useState(addRandomTile(addRandomTile(createEmptyBoard())));
   const [score, setScore] = useState(0);
@@ -266,4 +266,4 @@ const T2048 = () => {
   );
 };
 
-export default T2048;
+export default G2048;

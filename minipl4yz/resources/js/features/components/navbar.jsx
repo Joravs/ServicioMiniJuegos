@@ -28,6 +28,7 @@ const NavBar = () => {
   const [query, setQuery] = useState("");
   const [result, setResult] = useState({ games: [] , gamesFav: []});
   const [filteredGames, setFilteredGames] = useState([]);
+  const [loading, setLoading] = useState(true);
   const {user}=useUser();
 
   const fetchData = async () => {
@@ -178,7 +179,7 @@ const NavBar = () => {
                       button
                       key={game.id}
                       component={Link}
-                      to={`/catalog/${game.nombre}`}
+                      to={`/catalog/g${game.id}`}
                       onClick={() => setQuery("")}
                     >
                       {game.nombre}

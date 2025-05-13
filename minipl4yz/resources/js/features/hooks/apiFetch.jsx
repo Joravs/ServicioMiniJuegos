@@ -14,3 +14,5 @@ const apiFetch = async (url, options = {}) => {
       return null;
     }
 };
+
+export default apiFetch;

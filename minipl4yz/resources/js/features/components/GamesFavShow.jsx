@@ -53,7 +53,7 @@ const Index = () => {
               resultFav.map((game)=>(
                 <Grid size={{xs:12,sm:8,md:6,lg:3}} key={game.id} sx={{ position: 'relative' }}>
                   <Card
-                    id={game.nombre}
+                    id={`g${game.id}`}
                     className="gameCard animate__animated"
                     sx={{
                       backgroundColor: '#514559',
@@ -68,10 +68,10 @@ const Index = () => {
                       position: 'relative',
                     }}
                   >
-                    <CardActionArea component={Link} to={`/catalog/${game.nombre}`}>
+                    <CardActionArea component={Link} to={`/catalog/g${game.id}`}>
                       <CardMedia
                         component="img"
-                        image={`src/${game.nombre}.png`}
+                        image={`src/g${game.id}.png`}
                         alt={`${game.nombre} Logo`}
                         sx={{ height: 180, objectFit: 'contain', p: 2 }}
                       />

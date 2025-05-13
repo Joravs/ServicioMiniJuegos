@@ -76,7 +76,7 @@ export default function StatsView() {
           >
             <CardMedia
               component="img"
-              image={`/src/${game.nombre}.png`}
+              image={`/src/g${game.id}.png`}
               alt={game.nombre}
               sx={{ height: 140, objectFit: 'contain', p: 2 }}
             />

@@ -60,7 +60,7 @@ function crearTablero(rows, cols, minesCount) {
   return board;
 }
 
-export default function Buscaminas() {
+export default function G1() {
   const [dificultad, setDificultad] = useState('facil');
   const { rows, cols, mines } = DIFICULTADES[dificultad];
   const [board, setBoard] = useState(() => crearTablero(rows, cols, mines));

@@ -18,9 +18,9 @@ import Logout from '$/component/logout';
 import AdminIndex from '!/AdminIndex'
 
 
-import Buscaminas from '#/pages/Buscaminas';
-import Snake from '#/pages/Snake';
-import T2048 from '#/pages/T2048';
+import G1 from '#/pages/g1';
+import G2 from '#/pages/g2';
+import G2048 from '#/pages/g2048';
 
 ReactDOM.createRoot(document.getElementById('root'))
 .render(
@@ -44,9 +44,9 @@ ReactDOM.createRoot(document.getElementById('root'))
                     <Route path='/register' element={<Register/>}/>
 
                     {/**Games */}
-                    <Route path='/catalog/Buscaminas' element={<PrivateRoute><Buscaminas/></PrivateRoute>}/>
-                    <Route path='/catalog/Snake' element={<PrivateRoute><Snake/></PrivateRoute>}/>
-                    <Route path='/catalog/T2048' element={<PrivateRoute><T2048/></PrivateRoute>}/>
+                    <Route path='/catalog/g1' element={<PrivateRoute><G1/></PrivateRoute>}/>
+                    <Route path='/catalog/g2' element={<PrivateRoute><G2/></PrivateRoute>}/>
+                    <Route path='/catalog/g2048' element={<PrivateRoute><G2048/></PrivateRoute>}/>
                 </Routes>
             </Router>
             </UserProvider>

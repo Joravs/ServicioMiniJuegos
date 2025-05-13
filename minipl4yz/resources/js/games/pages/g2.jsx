@@ -23,7 +23,7 @@ const SPEEDS = {
   fast: 75,
 };
 
-export default function Snake() {
+export default function G2() {
   const [snake, setSnake] = useState(INITIAL_SNAKE);
   const [direction, setDirection] = useState(INITIAL_DIRECTION);
   const [food, setFood] = useState({ x: 5, y: 5 });
