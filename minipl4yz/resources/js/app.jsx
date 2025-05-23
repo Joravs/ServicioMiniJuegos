@@ -17,7 +17,6 @@ import Logout from '$/component/logout';
 
 import AdminIndex from '!/AdminIndex'
 
-
 import G1 from '#/pages/g1';
 import G2 from '#/pages/g2';
 import G2048 from '#/pages/g2048';
