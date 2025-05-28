@@ -1,7 +1,0 @@
-Bootstrap
-Vite.js
-Laravel
-MySQL
-
-
-LAMPP

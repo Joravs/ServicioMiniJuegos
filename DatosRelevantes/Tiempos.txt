@@ -1,3 +1,0 @@
-Creacion de base de datos: 2hr
-Creación y configuracion del hosting en casa: 2hr
-Configuración de la pagina: 22hr

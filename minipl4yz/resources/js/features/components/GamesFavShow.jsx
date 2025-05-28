@@ -9,7 +9,7 @@ import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
 import apiFetch from '@/hooks/apiFetch';
 
-const Index = () => {
+const GamesFavShow = () => {
     const [resultFav, setResultFav] = useState({ gamesFav: []});
     const [loading, setLoading] = useState(true);
     let fav = 0;
@@ -103,4 +103,4 @@ const Index = () => {
     );    
 };
 
-export default Index;
+export default GamesFavShow;
