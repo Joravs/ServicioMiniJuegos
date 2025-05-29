@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box, Tabs, Tab, Typography, LinearProgress,
   FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Card, Button, Snackbar, Alert
@@ -17,11 +17,30 @@ const ProfileView = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [newPasswordError, setNewPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const { user } = useUser();
   const [selectedAvatar, setSelectedAvatar] = useState(user.avatar || '/uploads/avatars/default.png');
+
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    if (password.length < minLength) {
+      return 'La contraseña debe tener al menos 8 caracteres';
+    }
+    if (!hasUpperCase) {
+      return 'La contraseña debe contener al menos una letra mayúscula';
+    }
+    if (!hasNumber) {
+      return 'La contraseña debe contener al menos un número';
+    }
+    return '';
+  };
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -33,6 +52,12 @@ const ProfileView = () => {
   };
 
   const handleChangePassword = async () => {
+    if (newPasswordError || confirmPasswordError || newPassword === '' || confirmPassword === '') {
+      setSnackbarMessage('La nueva contraseña no cumple con los requisitos o no coincide.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
     const result = await apiFetch(APP__URL + '/api/handlePassword', {
       method: 'POST',
       headers: {
@@ -48,6 +73,9 @@ const ProfileView = () => {
       setSnackbarOpen(true);
       setCurrentPassword('');
       setNewPassword('');
+      setConfirmPassword('');
+      setNewPasswordError('');
+      setConfirmPasswordError('');
     } else {
       setSnackbarMessage('Error al actualizar la contraseña.');
       setSnackbarSeverity('error');
@@ -57,6 +85,26 @@ const ProfileView = () => {
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
+  };
+
+  const handleNewPasswordChange = (value) => {
+    setNewPassword(value);
+    const validationError = validatePassword(value);
+    setNewPasswordError(validationError);
+    if (confirmPassword && value !== confirmPassword) {
+      setConfirmPasswordError('Las contraseñas no coinciden');
+    } else {
+      setConfirmPasswordError('');
+    }
+  };
+
+  const handleConfirmPasswordChange = (value) => {
+    setConfirmPassword(value);
+    if (value !== newPassword) {
+      setConfirmPasswordError('Las contraseñas no coinciden');
+    } else {
+      setConfirmPasswordError('');
+    }
   };
 
   const handleAvatarChange = async (event) => {
@@ -230,7 +278,7 @@ const ProfileView = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth variant="outlined">
+              <FormControl fullWidth variant="outlined" error={Boolean(newPasswordError)}>
                 <InputLabel htmlFor="new-password" sx={{ color: '#fff' }}>
                   Nueva Contraseña
                 </InputLabel>
@@ -238,7 +286,7 @@ const ProfileView = () => {
                   id="new-password"
                   type={showPassword ? 'text' : 'password'}
                   value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
+                  onChange={(e) => handleNewPasswordChange(e.target.value)}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -255,12 +303,55 @@ const ProfileView = () => {
                   sx={{ backgroundColor: 'transparent', color: '#fff' }}
                   className="animate__animated animate__fadeInUp"
                 />
+                {newPasswordError && (
+                  <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+                    {newPasswordError}
+                  </Typography>
+                )}
+              </FormControl>
+
+              <FormControl fullWidth variant="outlined" error={Boolean(confirmPasswordError)}>
+                <InputLabel htmlFor="confirm-password" sx={{ color: '#fff' }}>
+                  Confirmar Contraseña
+                </InputLabel>
+                <OutlinedInput
+                  id="confirm-password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Confirmar Contraseña"
+                  sx={{ backgroundColor: 'transparent', color: '#fff' }}
+                  className="animate__animated animate__fadeInUp"
+                />
+                {confirmPasswordError && (
+                  <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+                    {confirmPasswordError}
+                  </Typography>
+                )}
               </FormControl>
 
               <Button
                 variant="contained"
                 sx={{ backgroundColor: '#21BFAF', color: 'black' }}
                 onClick={handleChangePassword}
+                disabled={
+                  Boolean(newPasswordError) ||
+                  Boolean(confirmPasswordError) ||
+                  newPassword === '' ||
+                  confirmPassword === ''
+                }
               >
                 Cambiar Contraseña
               </Button>
