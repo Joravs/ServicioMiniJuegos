@@ -3,6 +3,7 @@ import {Button,Snackbar,Alert} from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import getCsrfToken from '@/hooks/getToken';
 import APP__URL from '@/hooks/variables';
+import apiFetch from '@/hooks/apiFetch';
 
 export default function UserTable(){
     const [users,setUsers] = useState([]);
