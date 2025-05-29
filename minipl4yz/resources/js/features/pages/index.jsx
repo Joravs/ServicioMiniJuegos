@@ -95,7 +95,7 @@ const Index = () => {
                       component="img"
                       image={`src/g${game.id}.png`}
                       alt={`${game.nombre} Logo`}
-                      sx={{ height: 180, objectFit: 'contain', p: 2 }}
+                      sx={{ height: 200, objectFit: 'contain', p: 2 }}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography variant="h6">{game.nombre}</Typography>
