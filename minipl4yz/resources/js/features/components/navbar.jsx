@@ -100,7 +100,7 @@ const NavBar = () => {
               </ListItemButton>
             </ListItem>
             <Divider/>
-            {user.id===1?
+            {user?.id===1?
               <ListItem disablePadding>
                 <ListItemButton component={Link} to="/admin">
                   <ListItemIcon>
