@@ -71,7 +71,7 @@ export default function UserTable(){
                 'X-CSRF-TOKEN': getCsrfToken(),
             },
         });
-        setUsers(json?.games || []);
+        setUsers(json||[]);
     };
     
     useEffect(()=>{

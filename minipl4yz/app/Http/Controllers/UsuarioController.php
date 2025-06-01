@@ -97,8 +97,8 @@ class UsuarioController extends Controller
 
         $request->validate([
             'nombre' => 'nullable|string|max:255',
-            'nivel' => 'nullable|integer',
-            'xp' => 'nullable|integer',
+            'nivel' => 'nullable|string',
+            'xp' => 'nullable|string',
             'avatar' => 'nullable|string',
         ]);
 
