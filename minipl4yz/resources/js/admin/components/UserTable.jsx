@@ -20,6 +20,9 @@ export default function UserTable(){
             body: JSON.stringify({ id, nombre, nivel, xp, avatar }),
         });
         if (result?.success) {
+            setUsers((prevUsers) =>
+                prevUsers.map((user) => (user.id === id ? result.user : user))
+            );
             setSnackbar({ open: true, message: 'Usuario actualizado.', severity: 'success' });
             return result.user;
         } else {
